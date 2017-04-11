@@ -5,11 +5,11 @@ using UnityEngine;
 public class Camera : MonoBehaviour {
 
     public Transform ziel;
-    public Vector3 offset;
+    private Vector3 offset;
 
 	// Use this for initialization
 	void Start () {
-		
+        offset = transform.position - ziel.transform.position;
 	}
 	
 	// Update is called once per frame
