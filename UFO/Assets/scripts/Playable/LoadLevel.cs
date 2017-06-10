@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VRStandardAssets.Utils;
+using UnityEngine.SceneManagement;
 
+public class LoadLevel : MonoBehaviour {
 
-public class TestSkript : MonoBehaviour {
+    public int levelToLoad;
 
     [SerializeField] private SelectionRadial m_SelectionRadial;
     [SerializeField] private VRInteractiveItem m_InteractiveItem;
+    [SerializeField] private VRCameraFade m_CameraFade;
 
     private bool m_GazeOver;
 
@@ -42,6 +45,19 @@ public class TestSkript : MonoBehaviour {
     private void HandleSelectionComplete()
     {
         if (m_GazeOver)
-            Debug.Log("Action Complete");
+            StartCoroutine(ActivateButton());
+    }
+
+    private IEnumerator ActivateButton()
+    {
+        // If the camera is already fading, ignore.
+        if (m_CameraFade.IsFading)
+            yield break;
+
+        // Wait for the camera to fade out.
+        yield return StartCoroutine(m_CameraFade.BeginFadeOut(true));
+
+        // Load the level.
+        SceneManager.LoadScene(levelToLoad, LoadSceneMode.Single);
     }
 }

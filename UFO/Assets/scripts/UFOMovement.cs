@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ public class UFOMovement : MonoBehaviour {
         float tiltX = Input.GetAxis("Vertical") * maxTiltX;
         float tiltZ = Input.GetAxis("Horizontal") * maxTiltZ;
 
-        transform.localEulerAngles = new Vector3(tiltX, 0, -1*tiltZ);
+        transform.localEulerAngles = new Vector3(tiltX, 180, -1*tiltZ);
 
 
         float z = tiltX * Time.deltaTime * moveSpeed;
