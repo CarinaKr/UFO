@@ -53,7 +53,7 @@ public class Gun
             {
                 GameObject bullet = PoolBehaviour.bulletPool.GetObject();
 
-                bullet.transform.position = GameObject.Find("BarrelEnd").transform.position + Vector3.forward;
+                bullet.transform.position = barrelEnd.position + Vector3.forward;
                 cooldown = maxCooldown;
             }
 
@@ -65,8 +65,10 @@ public class Gun
         //aim
     }
     
-    public void setGunStrat(IGunStrategy strat)
+    public void setGunStrat(IGunStrategy strat, Transform barrelEnd)
     {
+        Debug.Log("Weapon Switched");
+        this.barrelEnd = barrelEnd;
         gunStrat = strat;
     }
 }
