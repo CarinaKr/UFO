@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class ArduinoTest : MonoBehaviour {
 
+    public Transform rotator;
+
     public Text[] text;
     public Text buttonText;
     public float moveSpeed;
@@ -21,63 +23,20 @@ public class ArduinoTest : MonoBehaviour {
     private String[] zValues;
     private bool zBaselined;
     private float zMaxArduinoX,zMaxArduinoY;
+    private float tiltX;
+    private float tiltZ;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         sp.Open();
         sp.ReadTimeout = 1;
         zMaxArduinoX = maxTiltBoardX / 9;
         zMaxArduinoY = maxTiltBoardZ / 9;
+
+        StartCoroutine(UpdateGyro());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (sp.IsOpen)
-        {
-            try
-            {
-                zIn = sp.ReadLine();
-                text[0].text = "Gesamt" + zIn + "end of text";
-
-                zValues = zIn.Split(';');
-                zX = float.Parse(zValues[0])- zBaseX ;
-                zY = float.Parse(zValues[1])-zBaseY ;
-                zZ = float.Parse(zValues[2])-zBaseZ ;
-
-                text[1].text = "X: " + ( zX);
-                text[2].text = "Y: " + ( zY);
-                text[3].text = "Z: " + ( zZ);
-
-                /*text[1].text = "X: " + (zX);
-                text[2].text = "Y: " + (zY);
-                text[3].text = "Z: " + (zZ);*/
-
-                sp.BaseStream.Flush();
-            }
-            catch (System.Exception)
-            {
-
-            }
-        }
-
-        if (zBaselined)
-        {
-            float tiltX = (zX / zMaxArduinoX) * maxTiltUfoX;  //zX wird max. ca 10 -> zX=1 == 9° Kippung des Sensors
-            float tiltZ = (zY / zMaxArduinoY) * maxTiltUfoZ;  //zY wird max ca 10
-            
-
-            transform.localEulerAngles = new Vector3(-1*tiltZ, 0, tiltX);
-
-
-            float x = tiltX * Time.deltaTime * moveSpeed;
-            float z = tiltZ * Time.deltaTime * moveSpeed;
-
-            transform.Translate(-1*x, 0, -1*z, Space.World);
-        }
-        
-    }
 
     public void baseline()
     {
@@ -88,5 +47,71 @@ public class ArduinoTest : MonoBehaviour {
         zBaselined = true;
     }
 
-    
+    IEnumerator UpdateGyro()
+    {
+        while (true)
+        {
+            if (sp.IsOpen)
+            {
+                try
+                {
+
+                    zIn = sp.ReadLine();
+                    //yield return new WaitForSeconds(0.0001f);
+                    text[0].text = "Gesamt" + zIn + "end of text";
+
+                    zValues = zIn.Split(';');
+                    zX = float.Parse(zValues[0]) - zBaseX;
+                    zY = float.Parse(zValues[1]) - zBaseY;
+                    zZ = float.Parse(zValues[2]) - zBaseZ;
+
+                    text[1].text = "X: " + (zX);
+                    text[2].text = "Y: " + (zY);
+                    text[3].text = "Z: " + (zZ);
+
+                    /*text[1].text = "X: " + (zX);
+                    text[2].text = "Y: " + (zY);
+                    text[3].text = "Z: " + (zZ);*/
+
+                    sp.BaseStream.Flush();
+                }
+                catch (System.Exception)
+                {
+
+                }
+            }
+            yield return new WaitForSeconds(0.0001f);
+
+            if (zBaselined)
+            {
+                float oldTiltX = tiltX;
+                float oldTiltZ = tiltZ;
+
+                tiltZ = -1 * (zX / zMaxArduinoX) * maxTiltUfoX;  //zX wird max. ca 10 -> zX=1 == 9° Kippung des Sensors
+                tiltX = -1 * Input.GetAxis("Vertical") * maxTiltUfoX;    //XRotation von Controller
+                                                                         //tiltZ = (zY / zMaxArduinoY) * maxTiltUfoZ;  //ZRotation von Arduino
+
+                //Calc diff between last and current rotation
+                float diffX = (tiltX - oldTiltX) * -1;
+                float diffZ = (tiltZ - oldTiltZ) * -1;
+
+                //actually rotate
+                rotator.Rotate(Vector3.left, diffX, Space.World);
+                transform.Rotate(Vector3.up, diffZ, Space.Self);
+
+                //rotation to movement
+                //xMove = zRot * moveSpeed * Time.deltaTime;
+                //zMove = xRot * moveSpeed * Time.deltaTime;
+
+                //transform.localEulerAngles = new Vector3(-1*tiltZ, 0, tiltX);
+
+                //rotation to movement
+                float xMove = tiltX * Time.deltaTime * moveSpeed;
+                float zMove = tiltZ * Time.deltaTime * moveSpeed;
+
+                //rotator.Translate(-1*x, 0, -1*z, Space.World);
+                rotator.Translate(zMove, 0, -1 * xMove, Space.World);
+            }
+        }
+    }
 }
