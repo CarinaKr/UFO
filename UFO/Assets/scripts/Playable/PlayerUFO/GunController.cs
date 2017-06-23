@@ -23,15 +23,16 @@ public class GunController : MonoBehaviour {
 	void Update () {
 		if(Input.GetButtonDown("Jump"))
         {
+<<<<<<< HEAD
             Debug.Log("Pressed");
             IGunStrategy strategy = GetComponentInChildren<RocketLauncher>();
            //Transform barrelEnd = GetComponentInChildren<RocketLauncher>(); //get the transform of correct barrelEnd here and pass it into setGunStrat
-            //gun.setGunStrat(strategy);
-
+            gun.setGunStrat(strategy);
+=======
             nextWeaponIndex++;
             nextWeaponIndex %= strategies.Length;
             gun.setGunStrat(strategies[nextWeaponIndex], this.barrelEnds[nextWeaponIndex]);
-
+>>>>>>> origin/master
         }
 	}
 
