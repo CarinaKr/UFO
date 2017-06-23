@@ -9,6 +9,7 @@ public class ArduinoTest : MonoBehaviour {
 
     public Transform rotator;
 
+    [SerializeField]public float[,] test;
     public Text[] text;
     public Text buttonText;
     public float moveSpeed;
