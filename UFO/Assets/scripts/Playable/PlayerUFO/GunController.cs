@@ -13,15 +13,12 @@ public class GunController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         fillStrategies();
-
-        gun = new Gun();
-        gun.setGunStrat(strategies[nextWeaponIndex], barrelEnds[nextWeaponIndex]);
-        
-	}
+        gun = new Gun(strategies[0], barrelEnds[0]);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetButtonDown("Jump"))
+		if(Input.GetButtonDown("Fire2"))
         {
             currentWeaponIndex = nextWeaponIndex;
             nextWeaponIndex++;

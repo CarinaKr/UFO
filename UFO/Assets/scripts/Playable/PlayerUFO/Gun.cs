@@ -10,6 +10,14 @@ public class Gun
     private IGunStrategy gunStrat;
     private Transform barrelEnd;
 
+    public Gun() { }
+
+    public Gun(IGunStrategy gunStrat, Transform barrelEnd)
+    {
+        this.gunStrat = gunStrat;
+        this.barrelEnd = barrelEnd;
+    }
+
     public void Shoot()
     {
         //shoot
@@ -19,10 +27,9 @@ public class Gun
         {
             if (cooldown <= 0)
             {
-                Debug.Log(maxCooldown);
                 GameObject bullet = PoolBehaviour.bulletPool.GetObject();
 
-                bullet.transform.position = barrelEnd.position + Vector3.forward;
+                bullet.transform.position = barrelEnd.transform.position + Vector3.forward;
                 cooldown = maxCooldown;
             }
 
@@ -37,8 +44,7 @@ public class Gun
     
     public void setGunStrat(IGunStrategy strat, Transform barrelEnd)
     {
-        Debug.Log("Weapon Switched");
-        this.barrelEnd = barrelEnd;
         gunStrat = strat;
+        this.barrelEnd = barrelEnd;
     }
 }
