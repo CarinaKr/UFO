@@ -18,7 +18,7 @@ public class GunController : MonoBehaviour {
         {
             Debug.Log("Pressed");
             IGunStrategy strategy = GetComponentInChildren<RocketLauncher>();
-           //Transform barrelEnd = GetComponentInChildren<RocketLauncher>(); //get the transform of correct barrelEnd here and pass it into setGunStrat
+            Transform barrelEnd = GetComponentInChildren<RocketLauncher>(); //get the transform of correct barrelEnd here and pass it into setGunStrat
             gun.setGunStrat(strategy);
         }
 	}
