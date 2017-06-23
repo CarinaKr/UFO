@@ -23,6 +23,11 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
         throw new NotImplementedException();
     }
 
+    public GameObject getGameObject()
+    {
+        return this.gameObject;
+    }
+
     // Use this for initialization
     void Start () {
 		

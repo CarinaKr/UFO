@@ -1,43 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/*
-public class Gun : MonoBehaviour {
-    private int cooldown;
-    public int maxCooldown;
-
-    public GameObject projectile;
-
-    // Use this for initialization
-    void Start()
-    {
-        cooldown = maxCooldown;
-    }
-
-    public void Shoot()
-    {
-        cooldown--;
-
-        if (Input.GetButton("Fire1"))
-        {
-            if(cooldown <= 0)
-            {
-                GameObject bullet = PoolBehaviour.bulletPool.GetObject();
-
-                bullet.transform.position = GameObject.Find("BarrelEnd").transform.position + Vector3.forward;
-                cooldown = maxCooldown;
-            }
-            
-        }
-    }
-}*/
 
 public class Gun
 {
     private int cooldown;
-    public int maxCooldown;
-
-    public GameObject projectile;
+    private int maxCooldown = 1; //sollte eigentlich jede gun spezifisch haben!
 
     private IGunStrategy gunStrat;
     private Transform barrelEnd;
@@ -51,6 +19,7 @@ public class Gun
         {
             if (cooldown <= 0)
             {
+                Debug.Log(maxCooldown);
                 GameObject bullet = PoolBehaviour.bulletPool.GetObject();
 
                 bullet.transform.position = barrelEnd.position + Vector3.forward;
@@ -60,9 +29,10 @@ public class Gun
         }
     }
 
-    public void Aim()
+    public void Aim(Transform gun)
     {
         //aim
+        
     }
     
     public void setGunStrat(IGunStrategy strat, Transform barrelEnd)

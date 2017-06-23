@@ -12,4 +12,6 @@ public interface IGunStrategy {
     void Reload();
 
     void setProjectile();
+
+    GameObject getGameObject();
 }

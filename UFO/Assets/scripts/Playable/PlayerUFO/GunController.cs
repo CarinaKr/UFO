@@ -5,10 +5,10 @@ using UnityEngine;
 public class GunController : MonoBehaviour {
 
     private Gun gun;
-    private int nextWeaponIndex;
+    private int currentWeaponIndex, nextWeaponIndex;
 
     public Transform[] barrelEnds;
-    private IGunStrategy[] strategies = new IGunStrategy[2];
+    private List<IGunStrategy> strategies = new List<IGunStrategy>();
 
     // Use this for initialization
     void Start () {
@@ -23,9 +23,12 @@ public class GunController : MonoBehaviour {
 	void Update () {
 		if(Input.GetButtonDown("Jump"))
         {
+            currentWeaponIndex = nextWeaponIndex;
             nextWeaponIndex++;
-            nextWeaponIndex %= strategies.Length;
+            nextWeaponIndex %= strategies.Count;
             gun.setGunStrat(strategies[nextWeaponIndex], this.barrelEnds[nextWeaponIndex]);
+            strategies[nextWeaponIndex].getGameObject().SetActive(true);
+            strategies[currentWeaponIndex].getGameObject().SetActive(false);
         }
 	}
 
@@ -36,7 +39,9 @@ public class GunController : MonoBehaviour {
 
     void fillStrategies()
     {
-        strategies[0] = GetComponentInChildren<RailGun>();
-        strategies[1] = GetComponentInChildren<RocketLauncher>();
+        foreach (IGunStrategy strat in GetComponentsInChildren<IGunStrategy>())
+        {
+            strategies.Add(strat);
+        }
     }
 }

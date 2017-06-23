@@ -24,4 +24,9 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     {
 
     }
+
+    public GameObject getGameObject()
+    {
+        return this.gameObject;
+    }
 }
