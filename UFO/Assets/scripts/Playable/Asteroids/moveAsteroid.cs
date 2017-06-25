@@ -4,25 +4,31 @@ using UnityEngine;
 
 public class moveAsteroid : MonoBehaviour {
 
-    private Vector3 zRichtung;
+    public Transform center;
+    public Transform ufo;
+    public float moveSpeed;
+    public float radius;
+
+
+    private Vector3 zZiel;
+
 
 	// Use this for initialization
 	void Start () {
+        zZiel = new Vector3(center.position.x,transform.position.y, center.position.z);
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+        transform.position = Vector3.MoveTowards(transform.position,zZiel, moveSpeed*Time.deltaTime);
+        if(transform.position==zZiel)
+        {
+            //in Blickrichtung des Ufos an den Rand des Radius bewegen.
+            //transform.Rotate(Vector3.up, ufo.transform.rotation.y);
+            //transform.Translate(Vector3.forward* radius);
+        }
 	}
 
-     void OnTriggerExit(Collider other)
-    {
-        if(other.tag=="Player")
-        {
-            Debug.Log("trigger exit");
-            zRichtung = other.transform.position - transform.position;
-            transform.Translate(zRichtung *2,Space.World);
-        }
-    }
+    
 }

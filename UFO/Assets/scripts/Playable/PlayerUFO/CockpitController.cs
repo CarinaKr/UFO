@@ -10,6 +10,7 @@ public class CockpitController : MonoBehaviour {
     public float maxTiltX;
     public float maxTiltZ;
     public float moveSpeed;
+    public Transform centerPoint;
 
     private float xRot = 0;
     private float zRot = 0;
@@ -28,7 +29,7 @@ public class CockpitController : MonoBehaviour {
         float oldZRot = zRot;
 
         //Controller Input
-        xRot = Input.GetAxis("Vertical") * maxTiltX;
+        //xRot = Input.GetAxis("Vertical") * maxTiltX;
         zRot = Input.GetAxis("Horizontal") * maxTiltZ;
 
         //Calc diff between last and current rotation
@@ -42,9 +43,10 @@ public class CockpitController : MonoBehaviour {
         //rotation to movement
         xMove = zRot * moveSpeed * Time.deltaTime;
         zMove = xRot * moveSpeed * Time.deltaTime;
-
+        rotator.RotateAround(centerPoint.position, Vector3.up, xMove);
         //move the object (parent to move everything)
-        rotator.Translate(xMove, 0, zMove, Space.World);
+        
+        //rotator.Translate(xMove, 0, zMove, Space.World);
     }
 
     void FixedUpdate()
