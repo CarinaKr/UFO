@@ -45,6 +45,8 @@ public class Gun
     public void setGunStrat(IGunStrategy strat, Transform barrelEnd)
     {
         gunStrat = strat;
+        Transform[] test = new Transform[2];
+      
         this.barrelEnd = barrelEnd;
     }
 }

@@ -8,7 +8,10 @@ public class GunController : MonoBehaviour {
     private int currentWeaponIndex, nextWeaponIndex;
 
     public Transform[] barrelEnds;
+    public Transform[,] guns;
     private List<IGunStrategy> strategies = new List<IGunStrategy>();
+
+    private GameObject[,] gunArray;
 
     // Use this for initialization
     void Start () {
@@ -36,9 +39,34 @@ public class GunController : MonoBehaviour {
 
     void fillStrategies()
     {
+        gunArray = new GameObject[GetComponentsInChildren<IGunStrategy>().Length, 2];
+
+        foreach (Transform t in GetComponentsInChildren<Transform>())
+        {
+            
+        }
         foreach (IGunStrategy strat in GetComponentsInChildren<IGunStrategy>())
         {
             strategies.Add(strat);
+            strat.getGameObject().SetActive(false);
+        }
+
+        strategies[0].getGameObject().SetActive(true);
+
+        guns = new Transform[strategies.Count, 2];
+        /*
+        for(int i = 0; i < strategies.Count; i++)
+        {
+            guns[i] = strategies[i].getGameObject();
+            for(int j = 0; j < )
+        }*/
+
+
+        for(int i = 0; i < strategies.Count; i++)
+        {
+            Debug.Log(strategies[i].ToString());
+            guns[i,0] = strategies[i].getGameObject().transform;
+            Debug.Log(guns[i,0].ToString());
         }
     }
 }

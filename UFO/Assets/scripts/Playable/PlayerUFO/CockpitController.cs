@@ -10,6 +10,7 @@ public class CockpitController : MonoBehaviour {
     public float maxTiltX;
     public float maxTiltZ;
     public float moveSpeed;
+    public float turnSpeed;
     public Transform centerPoint;
 
     private float xRot = 0;
@@ -41,8 +42,9 @@ public class CockpitController : MonoBehaviour {
         transform.Rotate(Vector3.up, diffZ, Space.Self);
 
         //rotation to movement
-        xMove = zRot * moveSpeed * Time.deltaTime;
+        xMove = zRot * moveSpeed * Time.deltaTime * turnSpeed;
         zMove = xRot * moveSpeed * Time.deltaTime;
+
         rotator.RotateAround(centerPoint.position, Vector3.up, xMove);
         //move the object (parent to move everything)
         

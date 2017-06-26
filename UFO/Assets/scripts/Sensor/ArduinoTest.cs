@@ -9,6 +9,8 @@ public class ArduinoTest : MonoBehaviour
 {
 
     public Transform rotator;
+    [SerializeField]
+    private static String comName = "COM1";
 
     public Text[] text;
     public Text buttonText;
@@ -17,7 +19,7 @@ public class ArduinoTest : MonoBehaviour
     public float maxTiltBoardX, maxTiltBoardZ;
     public float tiltTolerance;
 
-    SerialPort sp = new SerialPort("COM6", 9600);
+    SerialPort sp = new SerialPort(comName, 9600);
     private float zBaseX, zBaseY, zBaseZ;
     private float zX, zY, zZ;
     private String zIn;
