@@ -11,6 +11,7 @@ public class createAsteroids : MonoBehaviour {
     public int asteroidsNumber;
     public float minSize, maxSize;
     public float radius;
+    public float minY, maxY;
 
     private float sphereSize;
     private float x, y, z,xRot,yRot,zRot;
@@ -26,7 +27,7 @@ public class createAsteroids : MonoBehaviour {
                for (int i = 0; i < asteroidsNumber; i++)
                 {
                     x = Random.Range(-sphereSize, sphereSize);
-                    y = Random.Range(0, sphereSize / 4);
+                    y = Random.Range(minY,maxY);
                     z = Random.Range(-sphereSize, sphereSize);
 
                     xRot = Random.Range(0, 360);

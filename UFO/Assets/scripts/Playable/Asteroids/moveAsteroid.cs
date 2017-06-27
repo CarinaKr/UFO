@@ -9,6 +9,7 @@ public class moveAsteroid : MonoBehaviour {
     public float moveSpeed;
     public float radius;
 
+    public int damage;
 
     private Vector3 zZiel;
 
@@ -32,6 +33,19 @@ public class moveAsteroid : MonoBehaviour {
             //transform.Translate(Vector3.forward* radius);
         }
 	}
+
+    public int getDamage()
+    {
+        return damage;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag=="Player")
+        {
+            transform.position = zZiel;
+        }
+    }
 
     
 }

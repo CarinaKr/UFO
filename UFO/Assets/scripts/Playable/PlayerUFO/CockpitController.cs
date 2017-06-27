@@ -34,8 +34,8 @@ public class CockpitController : MonoBehaviour {
         zRot = Input.GetAxis("Horizontal") * maxTiltZ;
 
         //Calc diff between last and current rotation
-        float diffX = (xRot - oldXRot) * -1;
-        float diffZ = (zRot - oldZRot) * -1;
+        float diffX = (xRot - oldXRot) * 1;
+        float diffZ = (zRot - oldZRot) * 1;
         
         //actually rotate
         rotator.Rotate(Vector3.left, diffX, Space.World);

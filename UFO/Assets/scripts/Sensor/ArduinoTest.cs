@@ -39,6 +39,7 @@ public class ArduinoTest : MonoBehaviour
         zMaxArduinoY = maxTiltBoardZ / 9;
 
         StartCoroutine(UpdateGyro());
+        baseline();
     }
 
 

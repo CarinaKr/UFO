@@ -88,9 +88,11 @@
     <Compile Include="Assets\scripts\Playable\PlayerUFO\CockpitController.cs" />
     <Compile Include="Assets\scripts\Playable\PlayerUFO\Gun.cs" />
     <Compile Include="Assets\scripts\Playable\PlayerUFO\GunController.cs" />
+    <Compile Include="Assets\scripts\Playable\PlayerUFO\Health.cs" />
     <Compile Include="Assets\scripts\Playable\PlayerUFO\IGunStrategy.cs" />
     <Compile Include="Assets\scripts\Playable\PlayerUFO\RailGun.cs" />
     <Compile Include="Assets\scripts\Playable\PlayerUFO\RocketLauncher.cs" />
+    <Compile Include="Assets\scripts\Playable\Util\FindComponentInChildren.cs" />
     <Compile Include="Assets\scripts\Playable\Util\PoolBehaviour.cs" />
     <Compile Include="Assets\scripts\Playable\Util\PoolManager.cs" />
     <Compile Include="Assets\scripts\Sensor\ArduinoTest.cs" />
