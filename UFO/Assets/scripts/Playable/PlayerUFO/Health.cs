@@ -25,20 +25,22 @@ public class Health : MonoBehaviour {
         if(other.tag=="Asteroid")
         {
             health -= other.GetComponent<moveAsteroid>().getDamage();
+            float healthPercent = (health / maxHealth);
             float healthSize= (health / maxHealth) * healthFull;
             healthTop.transform.localScale=new Vector3(healthTop.transform.localScale.x, healthTop.transform.localScale.y,healthSize);
-            if(healthSize<0.6)
+            if (healthPercent < 0.3)
             {
                 Material[] mats = healthTop.GetComponent<Renderer>().materials;
-                mats[1] = healthColor[1];
+                mats[0] = healthColor[2];
                 healthTop.GetComponent<Renderer>().materials = mats;
             }
-            else if(healthSize<0.3)
+            else if (healthPercent<0.6)
             {
                 Material[] mats = healthTop.GetComponent<Renderer>().materials;
-                mats[1] = healthColor[2];
+                mats[0] = healthColor[1];
                 healthTop.GetComponent<Renderer>().materials = mats;
             }
+            
 
         }
 
