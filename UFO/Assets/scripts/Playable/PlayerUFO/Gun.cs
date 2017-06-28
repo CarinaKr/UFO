@@ -9,13 +9,16 @@ public class Gun
 
     private IGunStrategy gunStrat;
     private Transform barrelEnd;
+    private Transform[] barrelEnds;
 
     public Gun() { }
 
-    public Gun(IGunStrategy gunStrat, Transform barrelEnd)
+    public Gun(IGunStrategy gunStrat, Transform leftBarrelEnd, Transform rightBarrelEnd)
     {
+        barrelEnds = new Transform[2];
         this.gunStrat = gunStrat;
-        this.barrelEnd = barrelEnd;
+        this.barrelEnds[0] = leftBarrelEnd;
+        this.barrelEnds[1] = rightBarrelEnd;
     }
 
     public void Shoot()
@@ -27,9 +30,11 @@ public class Gun
         {
             if (cooldown <= 0)
             {
-                GameObject bullet = PoolBehaviour.bulletPool.GetObject();
+                GameObject bulletLeft = PoolBehaviour.bulletPool.GetObject();
+                GameObject bulletRight = PoolBehaviour.bulletPool.GetObject();
 
-                bullet.transform.position = barrelEnd.transform.position + Vector3.forward;
+                bulletLeft.transform.position = barrelEnds[0].transform.position + Vector3.forward;
+                bulletRight.transform.position = barrelEnds[1].transform.position + Vector3.forward;
                 cooldown = maxCooldown;
             }
 
@@ -39,14 +44,13 @@ public class Gun
     public void Aim(Transform gun)
     {
         //aim
-        
+
     }
-    
-    public void setGunStrat(IGunStrategy strat, Transform barrelEnd)
+
+    public void setGunStrat(IGunStrategy strat, Transform leftBarrelEnd, Transform rightBarrelEnd)
     {
         gunStrat = strat;
-        Transform[] test = new Transform[2];
-      
-        this.barrelEnd = barrelEnd;
+        barrelEnds[0] = leftBarrelEnd;
+        barrelEnds[1] = rightBarrelEnd;
     }
 }
