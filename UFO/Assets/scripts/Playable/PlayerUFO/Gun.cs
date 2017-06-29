@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Gun
 {
+    public RectTransform reticle;
+
     private int cooldown;
     private int maxCooldown = 1; //sollte eigentlich jede gun spezifisch haben!
 
     private IGunStrategy gunStrat;
     private Transform barrelEnd;
     private Transform[] barrelEnds;
+
+    private Vector3 eulerAngleOffset = new Vector3(90, 0, 0);
 
     public Gun() { }
 
@@ -19,6 +23,7 @@ public class Gun
         this.gunStrat = gunStrat;
         this.barrelEnds[0] = leftBarrelEnd;
         this.barrelEnds[1] = rightBarrelEnd;
+        reticle = GameObject.FindGameObjectWithTag("CrossHair").GetComponent<RectTransform>();
     }
 
     public void Shoot()
@@ -41,9 +46,16 @@ public class Gun
         }
     }
 
-    public void Aim(Transform gun)
+    public void Aim()
     {
         //aim
+        Debug.Log("Aiming");
+        //barrelEnds[0].LookAt(new Vector3(5,5,5));
+        for(int i = 0; i <barrelEnds.Length; i++)
+        {
+            barrelEnds[i].parent.parent.LookAt(reticle);
+            barrelEnds[i].parent.parent.Rotate(eulerAngleOffset, Space.Self);
+        }
 
     }
 

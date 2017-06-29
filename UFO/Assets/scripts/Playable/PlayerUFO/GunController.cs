@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
+    public RectTransform reticle;
 
     private Gun gun;
     private const int AMOUNT_OF_GUNS= 2;
     private int currentWeaponIndex, nextWeaponIndex;
 
-    public Transform[,] guns;
+    private Transform[,] guns;
     private List<IGunStrategy> strategies = new List<IGunStrategy>();
 
     // Use this for initialization
@@ -22,6 +23,7 @@ public class GunController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        gun.Aim();
         if (Input.GetButtonDown("Fire2"))
         {
             currentWeaponIndex = nextWeaponIndex;
