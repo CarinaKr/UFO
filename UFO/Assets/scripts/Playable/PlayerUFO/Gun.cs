@@ -40,6 +40,9 @@ public class Gun
 
                 bulletLeft.transform.position = barrelEnds[0].transform.position + Vector3.forward;
                 bulletRight.transform.position = barrelEnds[1].transform.position + Vector3.forward;
+                //Rotate towards crosshair. Needs to be worked at!
+                bulletLeft.transform.LookAt(reticle);
+                bulletRight.transform.LookAt(reticle);
                 cooldown = maxCooldown;
             }
 
@@ -49,8 +52,7 @@ public class Gun
     public void Aim()
     {
         //aim
-        Debug.Log("Aiming");
-        //barrelEnds[0].LookAt(new Vector3(5,5,5));
+
         for(int i = 0; i <barrelEnds.Length; i++)
         {
             barrelEnds[i].parent.parent.LookAt(reticle);
