@@ -16,13 +16,13 @@ public class SimpleRotator : MonoBehaviour {
 	void Update () {
         if(x == 50 )
         {
-            zRot = Random.Range(-10, 90);
+            zRot = Random.Range(-1, 1);
              x = 0;
              diff = oldZ - zRot;
         }
-        
+       // Debug.Log(diff);
        
-        transform.Rotate(Vector3.up, diff, Space.Self);
+        transform.Rotate(Vector3.up, diff*100*Time.deltaTime, Space.Self);
         oldZ = zRot;
         x++;
 	}

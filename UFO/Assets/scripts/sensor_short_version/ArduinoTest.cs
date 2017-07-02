@@ -7,7 +7,11 @@ using UnityEngine.UI;
 
 public class ArduinoTest : MonoBehaviour
 {
+    private float diffDeg;
+    private int count;
+    private float oldDeg;
     private float degree;
+    public Boolean isController;
 
     public Transform rotator;
     public Transform centerPoint;
@@ -21,7 +25,7 @@ public class ArduinoTest : MonoBehaviour
     public float maxTiltBoardX, maxTiltBoardZ;
     public float tiltTolerance;
 
-    SerialPort sp = new SerialPort(comName, 9600);
+    SerialPort sp;
     private float zBaseX, zBaseY, zBaseZ;
     private float zX, zY, zZ;
     private String zIn;
@@ -31,12 +35,14 @@ public class ArduinoTest : MonoBehaviour
     private float tiltX;
     private float tiltZ;
 
-    private float oldDeg;
-
     void Start()
     {
-        sp.Open();
-        sp.ReadTimeout = 1;
+        if(!isController)
+        {
+            sp = new SerialPort(comName, 9600);
+            sp.Open();
+            sp.ReadTimeout = 1;
+        }
         zMaxArduinoX = maxTiltBoardX / 9;
         zMaxArduinoY = maxTiltBoardZ / 9;
 
@@ -46,33 +52,40 @@ public class ArduinoTest : MonoBehaviour
 
     void Update()
     {
-        if (sp.IsOpen)
+        if (!isController)
         {
-            try
+            if (sp.IsOpen)
             {
+                try
+                {
 
-                zIn = sp.ReadLine();
-                //yield return new WaitForSeconds(0.0001f);
-                text[0].text = "Gesamt" + zIn + "end of text";
+                    zIn = sp.ReadLine();
+                    //yield return new WaitForSeconds(0.0001f);
+                    text[0].text = "Gesamt" + zIn + "end of text";
 
-                zValues = zIn.Split(';');
-                zX = float.Parse(zValues[0]) - zBaseX;
-                zY = float.Parse(zValues[1]) - zBaseY;
-                zZ = float.Parse(zValues[2]) - zBaseZ;
+                    zValues = zIn.Split(';');
+                    zX = float.Parse(zValues[0]) - zBaseX;
+                    zY = float.Parse(zValues[1]) - zBaseY;
+                    zZ = float.Parse(zValues[2]) - zBaseZ;
 
-                text[1].text = "X: " + (zX);
-                text[2].text = "Y: " + (zY);
-                text[3].text = "Z: " + (zZ);
+                    text[1].text = "X: " + (zX);
+                    text[2].text = "Y: " + (zY);
+                    text[3].text = "Z: " + (zZ);
 
-                /*text[1].text = "X: " + (zX);
-                text[2].text = "Y: " + (zY);
-                text[3].text = "Z: " + (zZ);*/
-                sp.BaseStream.Flush();
+                    /*text[1].text = "X: " + (zX);
+                    text[2].text = "Y: " + (zY);
+                    text[3].text = "Z: " + (zZ);*/
+                    sp.BaseStream.Flush();
+                }
+                catch (System.Exception)
+                {
+
+                }
             }
-            catch (System.Exception)
-            {
-
-            }
+        } 
+        else
+        {
+            zX = Input.GetAxis("Horizontal");
         }
         if (zBaselined)
         {
@@ -93,35 +106,36 @@ public class ArduinoTest : MonoBehaviour
             {
                 ufoRotZ = -1 * (360 - ufoRotZ);
             }
-
+            //actual movement
             if (maxTiltUfoZ >= ufoRotZ && (-1 * maxTiltUfoZ) <= ufoRotZ)
             {
-                Debug.Log("rotating");
-                float diff = maxTiltUfoZ - ufoRotZ;
+                //either use this float + inner if OR use the outcommented else if below. check which gives better results
+                float diff = ufoRotZ > 0 ? maxTiltUfoZ - ufoRotZ : maxTiltUfoZ + ufoRotZ;
                 if (ufoRotZ > 18 && degree > diff)
                 {
                     degree = diff;
                 }
-                else if (ufoRotZ < -18 && degree < (-1* diff))
+                else if (ufoRotZ < -18 && degree < (-1 * diff))
                 {
                     degree = -1 * diff;
                 }
-                rotator.transform.Rotate(Vector3.forward, degree * Time.deltaTime, Space.Self);
-                Debug.Log("Uforot: " + ufoRotZ + " Degrees: " + degree);
+                diffDeg = degree - oldDeg; // <---- I dont know why. But with the Controller, this seems to work. 
+                rotator.transform.Rotate(Vector3.forward, diffDeg * Time.deltaTime, Space.Self);
+               // Debug.Log("Uforot: " + ufoRotZ + " Degrees: " + degree);
             }
-            else if (ufoRotZ < (-1*maxTiltUfoZ))
-            {
-                rotator.transform.rotation.eulerAngles.Set(0, 0, maxTiltUfoZ * -1);
-            }
-            else if (ufoRotZ > maxTiltUfoZ)
-            {
-                rotator.rotation.eulerAngles.Set(0, 0, maxTiltUfoZ);
-            }
+            //else if (ufoRotZ < (-1*maxTiltUfoZ))
+            //{
+            //    rotator.transform.eulerAngles = new Vector3(0, 0, maxTiltUfoZ * -1);
+            //}
+            //else if (ufoRotZ > maxTiltUfoZ)
+            //{
+            //    rotator.transform.eulerAngles = new Vector3(0, 0, maxTiltUfoZ);
+            //}
 
             //rotation to movement
             float xMove = tiltX * Time.deltaTime * moveSpeed;
             float zMove = tiltZ * Time.deltaTime * moveSpeed;
-
+            //Debug.Log(oldDeg - degree);
             oldDeg = degree;
             rotator.RotateAround(centerPoint.position, Vector3.up, xMove);
         }
