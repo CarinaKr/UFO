@@ -78,25 +78,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\scripts\Playable\Asteroids\createAsteroids.cs" />
-    <Compile Include="Assets\scripts\Playable\Asteroids\moveAsteroid.cs" />
-    <Compile Include="Assets\scripts\Playable\EnemyController.cs" />
-    <Compile Include="Assets\scripts\Playable\MenuScene\LoadLevel.cs" />
-    <Compile Include="Assets\scripts\Playable\MenuScene\Menu\MainMenu.cs" />
-    <Compile Include="Assets\scripts\Playable\OldVersionEnemyController.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\BulletMovement.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\CockpitController.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\CrosshairController.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\Gun.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\GunController.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\Health.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\IGunStrategy.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\RailGun.cs" />
-    <Compile Include="Assets\scripts\Playable\PlayerUFO\RocketLauncher.cs" />
-    <Compile Include="Assets\scripts\Playable\Util\FindComponentsInChildren.cs" />
-    <Compile Include="Assets\scripts\Playable\Util\PoolBehaviour.cs" />
-    <Compile Include="Assets\scripts\Playable\Util\PoolManager.cs" />
-    <Compile Include="Assets\scripts\Sensor\ArduinoTest.cs" />
+    <Compile Include="Assets\scripts\Asteroids\createAsteroids.cs" />
+    <Compile Include="Assets\scripts\Asteroids\moveAsteroid.cs" />
+    <Compile Include="Assets\scripts\EnemyController.cs" />
+    <Compile Include="Assets\scripts\MenuScene\LoadLevel.cs" />
+    <Compile Include="Assets\scripts\MenuScene\Menu\MainMenu.cs" />
+    <Compile Include="Assets\scripts\OldVersionEnemyController.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\BulletMovement.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\CockpitController.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\CrosshairController.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\Gun.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\GunController.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\Health.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\IGunStrategy.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\RailGun.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\RocketLauncher.cs" />
+    <Compile Include="Assets\scripts\SimpleRotator.cs" />
+    <Compile Include="Assets\scripts\Util\FindComponentsInChildren.cs" />
+    <Compile Include="Assets\scripts\Util\PoolBehaviour.cs" />
+    <Compile Include="Assets\scripts\Util\PoolManager.cs" />
     <Compile Include="Assets\scripts\VR Utility\Scripts\Utils\GUIArrows.cs" />
     <Compile Include="Assets\scripts\VR Utility\Scripts\Utils\InputWarnings.cs" />
     <Compile Include="Assets\scripts\VR Utility\Scripts\Utils\ObjectPool.cs" />
@@ -116,6 +116,7 @@
     <Compile Include="Assets\scripts\VRStandardAssets\Scripts\VRInput.cs" />
     <Compile Include="Assets\scripts\VRStandardAssets\Scripts\VRInteractiveItem.cs" />
     <Compile Include="Assets\scripts\VRStandardAssets\Scripts\VRTrackingReset.cs" />
+    <Compile Include="Assets\scripts\sensor_short_version\ArduinoTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\ImportedVRAssets\VRSampleScenes\Fonts\LICENSE.txt" />
