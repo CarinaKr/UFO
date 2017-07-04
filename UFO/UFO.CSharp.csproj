@@ -87,6 +87,7 @@
     <Compile Include="Assets\scripts\PlayerUFO\BulletMovement.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\CockpitController.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\CrosshairController.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\Follow.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\Gun.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\GunController.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\Health.cs" />

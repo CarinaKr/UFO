@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ArduinoTest : MonoBehaviour
 {
     public float tiltSpeed;
+    public Transform targetPoint;
     public Boolean isController;
 
     public Transform rotator;
@@ -56,26 +57,35 @@ public class ArduinoTest : MonoBehaviour
             float oldTiltX = tiltX;
             float oldTiltZ = tiltZ;
 
-            tiltZ = -1 * (zX / zMaxArduinoX) * maxTiltUfoX;  //zX wird max. ca 10 -> zX=1 == 9° Kippung des Sensors
+            Vector3 targetDir = targetPoint.position - transform.position;
+            //tiltZ =(float) Math.Tan(zX * 9) * targetDir.magnitude;
+            double rad = zX * 9 * (Math.PI / 180);
+            tiltZ =  -1 * (float) (Math.Tan(rad) * 4.21f);
+            Debug.Log("Tan: " + Math.Tan(rad));
+            Debug.Log("Länge: " + targetDir.magnitude);
+            Debug.Log("TiltZ: " + tiltZ);
+            //tiltZ = -1 * (zX / zMaxArduinoX) * maxTiltUfoX;  //zX wird max. ca 10 -> zX=1 == 9° Kippung des Sensors
 
-            Vector3 targetDir = new Vector3(0.1f + tiltZ, 8, 1);
-            var newDir = Quaternion.LookRotation(targetDir, -1 * Vector3.forward);
+            targetDir += transform.right * tiltZ;
+            var newDir = Quaternion.LookRotation(targetDir, -1 * (transform.position - centerPoint.transform.position));
             float step = tiltSpeed * Time.deltaTime;
             Debug.DrawRay(rotator.transform.position, targetDir * 5, Color.red);
             transform.rotation = Quaternion.Slerp(transform.rotation, newDir, step);
-
-
-            //rotation to movement
-            float xMove = tiltX * Time.deltaTime * moveSpeed;
             float zMove = tiltZ * Time.deltaTime * moveSpeed;
-           
-            rotator.RotateAround(centerPoint.position, Vector3.up, xMove);
+
+            rotator.RotateAround(centerPoint.position, Vector3.up, zMove);
         }
-        //Vector3 targetDir = new Vector3(0.1f+neigung, 8, 1);
-        //var newDir = Quaternion.LookRotation(targetDir,-1*Vector3.forward);
+        //double rad = neigung * 9 * (Math.PI / 180);
+        //tiltZ = (float)Math.Tan(rad) * 4.21f;
+        //Vector3 targetDir = targetPoint.position - transform.position;
+        //targetDir += transform.right * tiltZ;
+        //var newDir = Quaternion.LookRotation(targetDir, -1 * (transform.position - centerPoint.transform.position));
         //float step = tiltSpeed * Time.deltaTime;
         //Debug.DrawRay(rotator.transform.position, targetDir * 5, Color.red);
         //transform.rotation = Quaternion.Slerp(transform.rotation, newDir, step);
+        //float zMove = tiltZ * Time.deltaTime * moveSpeed;
+
+        //rotator.RotateAround(centerPoint.position, Vector3.up, zMove);
     }
 
     public void baseline()
@@ -112,7 +122,7 @@ public class ArduinoTest : MonoBehaviour
                         /*text[1].text = "X: " + (zX);
                         text[2].text = "Y: " + (zY);
                         text[3].text = "Z: " + (zZ);*/
-                        Debug.Log("Daten: " + zIn);
+                        //Debug.Log("Daten: " + zIn);
                         sp.BaseStream.Flush();
                     }
                     catch (System.Exception)
@@ -124,7 +134,7 @@ public class ArduinoTest : MonoBehaviour
             {
                 zX = Input.GetAxis("Horizontal");
             }
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
         }
     }
 }

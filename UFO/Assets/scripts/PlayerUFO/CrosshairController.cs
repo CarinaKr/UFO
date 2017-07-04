@@ -42,7 +42,7 @@ public class CrosshairController : MonoBehaviour
             float currentXRounded = (float)Math.Round(rectTrans.localPosition.x, 2);
             float currentYRounded = (float)Math.Round(rectTrans.localPosition.y, 2);
             //only if were not in the center already
-            if (!(currentXRounded == centerPointXRounded || currentYRounded == centerPointYRounded))
+            if (!(currentXRounded == centerPointXRounded && currentYRounded == centerPointYRounded))
             {
                 rectTrans.localPosition = Vector3.MoveTowards(rectTrans.localPosition, centerPoint, step * aimingSpeed * Time.deltaTime);
             }
