@@ -10,6 +10,7 @@ public class ArduinoTest : MonoBehaviour
     public float tiltSpeed;
     public Transform targetPoint;
     public Boolean isController;
+    public float scaleDownFactor;
 
     public Transform rotator;
     public Transform centerPoint;
@@ -61,6 +62,7 @@ public class ArduinoTest : MonoBehaviour
             //tiltZ =(float) Math.Tan(zX * 9) * targetDir.magnitude;
             double rad = zX * 9 * (Math.PI / 180);
             tiltZ =  -1 * (float) (Math.Tan(rad) * 4.21f);
+            tiltZ *= scaleDownFactor;
             Debug.Log("Tan: " + Math.Tan(rad));
             Debug.Log("Länge: " + targetDir.magnitude);
             Debug.Log("TiltZ: " + tiltZ);

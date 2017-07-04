@@ -14,6 +14,7 @@ namespace VRStandardAssets.Utils
         [SerializeField] private Image m_Image;                     // Reference to the image component that represents the reticle.
         [SerializeField] private Transform m_ReticleTransform;      // We need to affect the reticle's transform.
         [SerializeField] private Transform m_Camera;                // The reticle is always placed relative to the camera.
+        [SerializeField] private LayerMask exclusionMask;           // The reticle shall not listen to everything on this layers.
 
 
         private Vector3 m_OriginalScale;                            // Since the scale of the reticle changes, the original scale needs to be stored.
@@ -67,16 +68,20 @@ namespace VRStandardAssets.Utils
         // This overload of SetPosition is used when the VREyeRaycaster has hit something.
         public void SetPosition (RaycastHit hit)
         {
-            m_ReticleTransform.position = hit.point;
-            m_ReticleTransform.localScale = m_OriginalScale * hit.distance;
-            
-            // If the reticle should use the normal of what has been hit...
-            if (m_UseNormal)
-                // ... set it's rotation based on it's forward vector facing along the normal.
-                m_ReticleTransform.rotation = Quaternion.FromToRotation (Vector3.forward, hit.normal);
-            else
-                // However if it isn't using the normal then it's local rotation should be as it was originally.
-                m_ReticleTransform.localRotation = m_OriginalRotation;
+            if(!((exclusionMask.value & 1 << hit.collider.gameObject.layer) == 1 << hit.collider.gameObject.layer))
+            {
+                m_ReticleTransform.position = hit.point;
+                m_ReticleTransform.localScale = m_OriginalScale * hit.distance;
+
+                // If the reticle should use the normal of what has been hit...
+                if (m_UseNormal)
+                    // ... set it's rotation based on it's forward vector facing along the normal.
+                    m_ReticleTransform.rotation = Quaternion.FromToRotation(Vector3.forward, hit.normal);
+                else
+                    // However if it isn't using the normal then it's local rotation should be as it was originally.
+                    m_ReticleTransform.localRotation = m_OriginalRotation;
+            }
+           
         }
     }
 }

@@ -25,14 +25,19 @@ public class moveAsteroid : MonoBehaviour {
         transform.position = Vector3.MoveTowards(transform.position,zZiel, moveSpeed*Time.deltaTime);
         if(transform.position==zZiel)
         {
-            Vector3 direction = new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
-            direction.Normalize();
-            transform.Translate(direction * radius,Space.World);
-            //in Blickrichtung des Ufos an den Rand des Radius bewegen.
-            //transform.Rotate(Vector3.up, ufo.transform.rotation.y);
-            //transform.Translate(Vector3.forward* radius);
+            Reposition();
         }
 	}
+
+    public void Reposition()
+    {
+        Vector3 direction = new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
+        direction.Normalize();
+        transform.Translate(direction * radius, Space.World);
+        //in Blickrichtung des Ufos an den Rand des Radius bewegen.
+        //transform.Rotate(Vector3.up, ufo.transform.rotation.y);
+        //transform.Translate(Vector3.forward* radius);
+    }
 
     public int getDamage()
     {
