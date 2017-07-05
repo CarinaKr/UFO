@@ -34,6 +34,7 @@ public class CrosshairController : MonoBehaviour
         //if input on an axis != 0, move towards target position, else move back to center point
         if (moveX != 0 || moveY != 0)
         {
+            Debug.Log("pressed");
             crosshairMovement = new Vector2(moveX, moveY);
             gameObject.transform.Translate(crosshairMovement * aimingSpeed * Time.deltaTime);
         }

@@ -7,13 +7,14 @@ public class Gun
     public RectTransform reticle;
 
     private int cooldown;
-    private int maxCooldown = 1; //sollte eigentlich jede gun spezifisch haben!
+    private int maxCooldown = 5; //sollte eigentlich jede gun spezifisch haben!
 
     private IGunStrategy gunStrat;
     private Transform barrelEnd;
     private Transform[] barrelEnds;
 
     private Vector3 eulerAngleOffset = new Vector3(90, 0, 0);
+    private const float bulletRotFactor = 0.75f;
 
     public Gun() { }
 
@@ -35,14 +36,20 @@ public class Gun
         {
             if (cooldown <= 0)
             {
+                //take bullets from the pool
                 GameObject bulletLeft = PoolBehaviour.bulletPool.GetObject();
                 GameObject bulletRight = PoolBehaviour.bulletPool.GetObject();
 
                 bulletLeft.transform.position = barrelEnds[0].transform.position + Vector3.forward;
                 bulletRight.transform.position = barrelEnds[1].transform.position + Vector3.forward;
-                //Rotate towards crosshair. Needs to be worked at!
+
+                //We have to rotate the bullets towards the crosshair in order to achieve a nice result
                 bulletLeft.transform.LookAt(reticle);
+                bulletLeft.transform.Rotate(eulerAngleOffset*bulletRotFactor);
                 bulletRight.transform.LookAt(reticle);
+                bulletRight.transform.Rotate(eulerAngleOffset* bulletRotFactor);
+
+                //cooldown reset
                 cooldown = maxCooldown;
             }
 

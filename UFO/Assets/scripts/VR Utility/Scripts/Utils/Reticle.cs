@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ namespace VRStandardAssets.Utils
     // surface of a VRInteractiveItem as determined by the VREyeRaycaster.
     public class Reticle : MonoBehaviour
     {
-        [SerializeField] private float m_DefaultDistance = 5f;      // The default distance away from the camera the reticle is placed.
+        [SerializeField] private float m_DefaultDistance = 100f;      // The default distance away from the camera the reticle is placed.
         [SerializeField] private bool m_UseNormal;                  // Whether the reticle should be placed parallel to a surface.
         [SerializeField] private Image m_Image;                     // Reference to the image component that represents the reticle.
         [SerializeField] private Transform m_ReticleTransform;      // We need to affect the reticle's transform.
@@ -19,7 +20,6 @@ namespace VRStandardAssets.Utils
 
         private Vector3 m_OriginalScale;                            // Since the scale of the reticle changes, the original scale needs to be stored.
         private Quaternion m_OriginalRotation;                      // Used to store the original rotation of the reticle.
-
 
         public bool UseNormal
         {
@@ -54,9 +54,10 @@ namespace VRStandardAssets.Utils
         // This overload of SetPosition is used when the the VREyeRaycaster hasn't hit anything.
         public void SetPosition ()
         {
+
             // Set the position of the reticle to the default distance in front of the camera.
             m_ReticleTransform.position = m_Camera.position + m_Camera.forward * m_DefaultDistance;
-
+            
             // Set the scale based on the original and the distance from the camera.
             m_ReticleTransform.localScale = m_OriginalScale * m_DefaultDistance;
 
@@ -85,3 +86,4 @@ namespace VRStandardAssets.Utils
         }
     }
 }
+
