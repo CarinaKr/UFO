@@ -33,6 +33,11 @@ public class GunController : MonoBehaviour
             strategies[nextWeaponIndex].getGameObject().SetActive(true);
             strategies[currentWeaponIndex].getGameObject().SetActive(false);
         }
+        if(Input.GetButtonDown("Reload"))
+        {
+            Debug.Log("Reloading!");
+            StartCoroutine(strategies[nextWeaponIndex].Reload());
+        }
     }
 
     void FixedUpdate()

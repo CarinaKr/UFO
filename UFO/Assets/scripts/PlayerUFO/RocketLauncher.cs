@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RocketLauncher : MonoBehaviour, IGunStrategy {
+    
+    int _reloadTime = 5;
+    int _dmg = 20;
+    int _range = 700;
+    int _currentAmmo;
+    int _capacity;
 
-    public float reloadTime
-    {
-        get
-        {
-            throw new NotImplementedException();
-        }
-    }
+    public LayerMask _mask;
 
-    public void Reload()
+    public IEnumerator Reload()
     {
         throw new NotImplementedException();
     }
@@ -28,13 +28,56 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
         return this.gameObject;
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public int reloadTime
+    {
+        get
+        {
+            return _reloadTime;
+        }
+    }
+
+    public int dmg
+    {
+        get
+        {
+            return _dmg;
+        }
+    }
+
+    public int range
+    {
+        get
+        {
+            return _range;
+        }
+    }
+
+    public LayerMask mask
+    {
+        get
+        {
+            return _mask;
+        }
+    }
+
+    public int capacity
+    {
+        get
+        {
+            return _capacity;
+        }
+    }
+
+    public int currentAmmo
+    {
+        get
+        {
+            return _currentAmmo;
+        }
+        set
+        {
+            _currentAmmo = value;
+        }
+    }
 }

@@ -36,7 +36,7 @@ public class CrosshairController : MonoBehaviour
         {
             Debug.Log("pressed");
             crosshairMovement = new Vector2(moveX, moveY);
-            gameObject.transform.Translate(crosshairMovement * aimingSpeed * Time.deltaTime);
+            gameObject.transform.Translate(crosshairMovement * aimingSpeed * Time.deltaTime, Space.World);
         }
         else
         {

@@ -4,12 +4,38 @@ using UnityEngine;
 
 public interface IGunStrategy {
 
-    float reloadTime
+    int reloadTime
     {
         get;
     }
 
-    void Reload();
+    int range
+    {
+        get;
+    }
+
+    int dmg
+    {
+        get;
+    }
+
+    int currentAmmo
+    {
+        get;
+        set;
+    }
+
+    int capacity
+    {
+        get;
+    }
+
+    LayerMask mask
+    {
+        get;
+    }
+
+    IEnumerator Reload();
 
     void setProjectile();
 

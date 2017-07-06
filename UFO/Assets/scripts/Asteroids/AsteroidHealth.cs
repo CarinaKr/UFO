@@ -24,6 +24,7 @@ public class AsteroidHealth : MonoBehaviour {
         {
             gameObject.GetComponent<moveAsteroid>().Reposition();
         }
+        Debug.Log("hit");
     }
 
     IEnumerator ShowDamageEffect()
