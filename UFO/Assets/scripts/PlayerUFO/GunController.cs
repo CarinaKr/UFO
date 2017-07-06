@@ -35,14 +35,18 @@ public class GunController : MonoBehaviour
         }
         if(Input.GetButtonDown("Reload"))
         {
-            Debug.Log("Reloading!");
-            StartCoroutine(strategies[nextWeaponIndex].Reload());
+            if(!strategies[nextWeaponIndex].isReloading)
+                StartCoroutine(strategies[nextWeaponIndex].Reload());
         }
     }
 
     void FixedUpdate()
     {
-        gun.Shoot();
+        if (Input.GetButton("Fire1") && strategies[nextWeaponIndex].currentAmmo > 0 && !strategies[nextWeaponIndex].isReloading)
+        {
+            gun.Shoot();
+            StartCoroutine(strategies[nextWeaponIndex].ShotEffect());
+        }
     }
 
     void fillStrategies()
@@ -60,7 +64,6 @@ public class GunController : MonoBehaviour
         {
             if(c.GetType() == typeof(Transform))
             {
-                Debug.Log("Transform: " + c.gameObject.ToString());
                 transf.Add(c.transform);
             }
         }
@@ -72,7 +75,6 @@ public class GunController : MonoBehaviour
             for(int j = 0; j < AMOUNT_OF_GUNS; j++)
             {
                 guns[i, j] = Helper.masterList[count].transform;
-                Debug.Log("In Array: " + guns[i, j].ToString());
                 count++;
             }
         }

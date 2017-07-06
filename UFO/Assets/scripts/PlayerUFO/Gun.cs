@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun
+public class Gun 
 {
     private RectTransform reticle;
     private Transform cameraTransform;
-
+    
     private int cooldown;
     private int maxCooldown = 5; //sollte eigentlich jede gun spezifisch haben!
 
@@ -34,7 +34,7 @@ public class Gun
         //shoot
         cooldown--;
 
-        if (Input.GetButton("Fire1") && gunStrat.currentAmmo > 0)
+        if (Input.GetButton("Fire1") && gunStrat.currentAmmo > 0 && !gunStrat.isReloading)
         {
             if (cooldown <= 0)
             {
@@ -53,7 +53,6 @@ public class Gun
                 //set the properties of the bullet according to the gun
                 bulletLeft.GetComponent<BulletMovement>().dmg = gunStrat.dmg;
                 bulletRight.GetComponent<BulletMovement>().dmg = gunStrat.dmg;
-
                 //reduce Ammo
                 gunStrat.currentAmmo -= 2;
 
@@ -84,11 +83,6 @@ public class Gun
             target = direction.normalized * gunStrat.range;
         }
 
-    }
-
-    public void Reload()
-    {
-        gunStrat.Reload();
     }
 
     public void setGunStrat(IGunStrategy strat, Transform leftBarrelEnd, Transform rightBarrelEnd)

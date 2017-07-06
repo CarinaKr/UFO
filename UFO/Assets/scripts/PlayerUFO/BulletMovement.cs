@@ -9,8 +9,9 @@ public class BulletMovement : MonoBehaviour {
 
     private int _dmg;
     private Vector3 targetPosition;
-    private Vector3 eulerAngleOffset = new Vector3(75, 0, 0);
+    private Vector3 eulerAngleOffset = new Vector3(90, 0, 0);
     private int aliveFor;
+    private bool _isShot;
 
     void Awake() {
         transform.parent = GameObject.Find("BulletContainer").transform;
@@ -22,18 +23,17 @@ public class BulletMovement : MonoBehaviour {
         targetPosition = GameObject.FindGameObjectWithTag("CrossHair").GetComponent<RectTransform>().position;
         transform.LookAt(targetPosition);
         transform.Rotate(eulerAngleOffset);
+        isShot = true;
+    }
+
+    void OnDisable()
+    {
+        isShot = false;
     }
 
     void FixedUpdate()
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed);
-
-        aliveFor++;
-        if (aliveFor == lifeTicks)
-        {
-            aliveFor = 0;
-            PoolBehaviour.bulletPool.ReleaseObject(gameObject);
-        }
     }
 
     void OnTriggerEnter(Collider col)
@@ -44,6 +44,7 @@ public class BulletMovement : MonoBehaviour {
         }
 
         aliveFor = 0;
+        isShot = false;
         PoolBehaviour.bulletPool.ReleaseObject(gameObject);
     }
 
@@ -62,5 +63,11 @@ public class BulletMovement : MonoBehaviour {
         {
             _dmg = value;
         }
+    }
+
+    public bool isShot
+    {
+        get;
+        set;
     }
 }

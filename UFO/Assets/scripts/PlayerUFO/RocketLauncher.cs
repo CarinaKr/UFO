@@ -10,6 +10,8 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
     int _range = 700;
     int _currentAmmo;
     int _capacity;
+    bool _isReloading;
+    AudioSource _shotSound;
 
     public LayerMask _mask;
 
@@ -26,6 +28,11 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
     public GameObject getGameObject()
     {
         return this.gameObject;
+    }
+
+    public IEnumerator ShotEffect()
+    {
+        throw new NotImplementedException();
     }
 
 
@@ -78,6 +85,14 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
         set
         {
             _currentAmmo = value;
+        }
+    }
+
+    public bool isReloading
+    {
+        get
+        {
+            return _isReloading;
         }
     }
 }

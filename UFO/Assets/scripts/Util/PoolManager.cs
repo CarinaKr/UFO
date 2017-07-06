@@ -4,35 +4,43 @@ using UnityEngine;
 
 public class PoolManager {
 
-    private GameObject[] objects;
+    private GameObject[] _objects;
     private int nextReturnIndex = 0;
     private int nextInsertIndex = 0;
 
     public PoolManager(int poolSize, GameObject toPool)
     {
-        objects = new GameObject[poolSize];
-        for(int i = 0; i < objects.Length; i++)
+        _objects = new GameObject[poolSize];
+        for(int i = 0; i < _objects.Length; i++)
         {
-            objects[i] = GameObject.Instantiate(toPool);
-            objects[i].SetActive(false);
+            _objects[i] = GameObject.Instantiate(toPool);
+            _objects[i].SetActive(false);
         }
     }
     
     public GameObject GetObject()
     {
-        GameObject returnValue = objects[nextReturnIndex];
-        objects[nextReturnIndex] = null;
+        GameObject returnValue = _objects[nextReturnIndex];
+        _objects[nextReturnIndex] = null;
         nextReturnIndex++;
-        nextReturnIndex %= objects.Length;
+        nextReturnIndex %= _objects.Length;
         returnValue.SetActive(true);
         return returnValue;
     }
 
     public void ReleaseObject(GameObject obj)
     {
-        objects[nextInsertIndex] = obj;
+        _objects[nextInsertIndex] = obj;
         nextInsertIndex++;
-        nextInsertIndex %= objects.Length;
+        nextInsertIndex %= _objects.Length;
         obj.SetActive(false);
+    }
+
+    public GameObject[] objects
+    {
+        get
+        {
+            return _objects;
+        }
     }
 }

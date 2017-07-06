@@ -10,22 +10,62 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     int _range;
     int _currentAmmo;
     int _capacity;
-
+    bool _isReloading;
+    BulletMovement[] _bulletList;
+    AudioSource _shotSound;
+    
     public LayerMask _mask;
-   
-    public RailGun()
+    public GameObject bulletContainer;
+    public GameObject muzzleFlashPrefab;
+    public Transform leftBarrel;
+    public Transform rightBarrel;
+    public AudioClip gunShotSound;
+
+    void Start()
     {
         _capacity = 100;
         _currentAmmo = _capacity;
-        _range = 700;
+        _range = 500;
         _dmg = 5;
         _reloadTime = 5;
+        _isReloading = false;
+        _bulletList = new BulletMovement[PoolBehaviour.bulletPool.objects.Length];
+        for (int i = 0; i < PoolBehaviour.bulletPool.objects.Length; i++)
+        {
+            _bulletList[i] = PoolBehaviour.bulletPool.objects[i].GetComponent<BulletMovement>();
+        }
+        _shotSound = GetComponent<AudioSource>();
+    }
+
+    public IEnumerator ShotEffect()
+    {
+        if(!_shotSound.isPlaying)
+        {
+            //_shotSound.Play();
+            _shotSound.PlayOneShot(gunShotSound);
+        }
+        GameObject leftMuzzleFlash = Instantiate(muzzleFlashPrefab, leftBarrel);
+        GameObject rightMuzzleFlash = Instantiate(muzzleFlashPrefab, rightBarrel);
+        yield return new WaitForSeconds(0.02f);
+        Destroy(leftMuzzleFlash);
+        Destroy(rightMuzzleFlash);
+        StopCoroutine(ShotEffect());
     }
 
     public IEnumerator Reload()
     {
+        _isReloading = true;
         yield return new WaitForSeconds(_reloadTime);
         _currentAmmo = _capacity;
+        _isReloading = false;
+        foreach(BulletMovement bullet in _bulletList)
+        {
+            if (bullet.isShot)
+            {
+                bullet.isShot = false;
+                PoolBehaviour.bulletPool.ReleaseObject(bullet.gameObject);
+            }
+        }
         StopCoroutine(Reload());
     }
 
@@ -88,6 +128,14 @@ public class RailGun : MonoBehaviour, IGunStrategy {
         set
         {
             _currentAmmo = value;
+        }
+    }
+
+    public bool isReloading
+    {
+        get
+        {
+            return _isReloading;
         }
     }
 }

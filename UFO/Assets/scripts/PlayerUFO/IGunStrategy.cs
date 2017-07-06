@@ -4,6 +4,11 @@ using UnityEngine;
 
 public interface IGunStrategy {
 
+    bool isReloading
+    {
+        get;
+    }
+
     int reloadTime
     {
         get;
@@ -36,6 +41,8 @@ public interface IGunStrategy {
     }
 
     IEnumerator Reload();
+
+    IEnumerator ShotEffect();
 
     void setProjectile();
 

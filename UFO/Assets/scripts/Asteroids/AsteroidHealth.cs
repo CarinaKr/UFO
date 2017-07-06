@@ -24,12 +24,10 @@ public class AsteroidHealth : MonoBehaviour {
         {
             gameObject.GetComponent<moveAsteroid>().Reposition();
         }
-        Debug.Log("hit");
     }
 
     IEnumerator ShowDamageEffect()
     {
-        Debug.Log("Playing Effect");
         mesh.material.color = Color.red;
         yield return new WaitForSeconds(0.5f);
         mesh.material.color = standardColor;
