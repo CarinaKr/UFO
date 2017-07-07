@@ -131,6 +131,7 @@
     <Compile Include="Assets\scripts\Asteroids\AsteroidHealth.cs" />
     <Compile Include="Assets\scripts\Asteroids\createAsteroids.cs" />
     <Compile Include="Assets\scripts\Asteroids\moveAsteroid.cs" />
+    <Compile Include="Assets\scripts\AudioFader.cs" />
     <Compile Include="Assets\scripts\EnemyController.cs" />
     <Compile Include="Assets\scripts\MenuScene\LoadLevel.cs" />
     <Compile Include="Assets\scripts\MenuScene\Menu\MainMenu.cs" />

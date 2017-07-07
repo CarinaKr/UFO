@@ -10,19 +10,17 @@ public class RadioController : MonoBehaviour {
 
     private int channel;
     private AudioSource aSource;
+    private float fadeTime = 1.5f;
 
 	// Use this for initialization
 	void Awake () {
-        channel = 0;
+        channel = channels.Length+1;
         aSource = GetComponent<AudioSource>();
-        aSource.clip = channels[channel];
-        aSource.Play();
-        //aSource.loop = true;
+        SwapChannel(channel);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(Input.GetButtonDown("PreviousChannel"));
         if (Input.GetButtonDown("PreviousChannel"))
         {
             //prev. ch
@@ -31,30 +29,29 @@ public class RadioController : MonoBehaviour {
             {
                 channel = channels.Length;
             }
-            SwapChannel(channel);
-            Debug.Log("Prev");
+            StartCoroutine(SwapChannel(channel));
         }
         else if (Input.GetButtonDown("NextChannel"))
         {
             //next ch.
             channel++;
             channel %= channels.Length+1;
-            SwapChannel(channel);
-            Debug.Log("Next");
+            StartCoroutine(SwapChannel(channel));
         }
 	}
 
-    void SwapChannel(int channel)
+    IEnumerator SwapChannel(int channel)
     {
-        if(channel != channels.Length)
+        if(channel < channels.Length)
         {
-            aSource.Stop();
+            StartCoroutine(AudioFader.FadeClip(aSource, fadeTime, false));
+            yield return new WaitForSeconds(fadeTime);
             aSource.clip = channels[channel];
-            aSource.Play();
+            StartCoroutine(AudioFader.FadeClip(aSource, fadeTime, true));
         }
         else
         {
-            aSource.Stop();
+            StartCoroutine(AudioFader.FadeClip(aSource, fadeTime, false));
         }
     }
 }
