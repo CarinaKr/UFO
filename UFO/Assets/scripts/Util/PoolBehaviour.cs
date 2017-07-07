@@ -9,7 +9,7 @@ public class PoolBehaviour : MonoBehaviour {
     public int bulletPoolSize;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         bulletPool = new PoolManager(bulletPoolSize, bulletObj);
 	}
 	

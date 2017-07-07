@@ -22,7 +22,10 @@ public class ScoreManager : MonoBehaviour {
 
     IEnumerator UpdateScore()
     {
-        scoreText.text = "Score: " + _score;
-        yield return new WaitForSeconds(1f);
+        while(true)
+        {
+            scoreText.text = "Score: " + _score;
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

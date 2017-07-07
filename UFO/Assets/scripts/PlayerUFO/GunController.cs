@@ -54,6 +54,7 @@ public class GunController : MonoBehaviour
         if(!strategies[nextWeaponIndex].isReloading && !ammoText.gameObject.activeSelf)
         {
             ammoText.gameObject.SetActive(true);
+            ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / " + strategies[nextWeaponIndex].capacity;
         }
     }
 
