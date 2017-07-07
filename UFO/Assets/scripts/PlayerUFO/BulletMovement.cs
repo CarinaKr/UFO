@@ -36,11 +36,12 @@ public class BulletMovement : MonoBehaviour {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed);
     }
 
-    void OnTriggerEnter(Collider col)
+    void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.CompareTag("Asteroid"))
         {
-            col.gameObject.GetComponent<AsteroidHealth>().ReceiveDamage(dmg);
+            Debug.Log("col");
+            col.gameObject.GetComponent<AsteroidHealth>().ReceiveDamage(dmg, col.contacts[0].point);
         }
 
         aliveFor = 0;

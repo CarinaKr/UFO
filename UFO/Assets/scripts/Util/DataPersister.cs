@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
 
+[Serializable]
 public class DataPersister
 {
     private readonly string DATA_KEY = "game_data";
