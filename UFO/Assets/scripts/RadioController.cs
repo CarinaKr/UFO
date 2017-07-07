@@ -17,7 +17,7 @@ public class RadioController : MonoBehaviour {
         channel = channels.Length+1;
         aSource = GetComponent<AudioSource>();
         SwapChannel(channel);
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -47,11 +47,13 @@ public class RadioController : MonoBehaviour {
             StartCoroutine(AudioFader.FadeClip(aSource, fadeTime, false));
             yield return new WaitForSeconds(fadeTime);
             aSource.clip = channels[channel];
+            radioChannelText.text = "Radio: 0" + (channel+1); 
             StartCoroutine(AudioFader.FadeClip(aSource, fadeTime, true));
         }
         else
         {
             StartCoroutine(AudioFader.FadeClip(aSource, fadeTime, false));
+            radioChannelText.text = "Radio: Off";
         }
     }
 }
