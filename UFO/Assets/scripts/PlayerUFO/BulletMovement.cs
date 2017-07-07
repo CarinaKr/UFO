@@ -9,7 +9,7 @@ public class BulletMovement : MonoBehaviour {
 
     private int _dmg;
     private Vector3 targetPosition;
-    private Vector3 eulerAngleOffset = new Vector3(90, 0, 0);
+    private Vector3 eulerAngleOffset = new Vector3(0, 0, 0);
     private int aliveFor;
     private bool _isShot;
 
@@ -22,7 +22,6 @@ public class BulletMovement : MonoBehaviour {
     {
         targetPosition = GameObject.FindGameObjectWithTag("CrossHair").GetComponent<RectTransform>().position;
         transform.LookAt(targetPosition);
-        transform.Rotate(eulerAngleOffset);
         isShot = true;
     }
 
@@ -36,19 +35,19 @@ public class BulletMovement : MonoBehaviour {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed);
     }
 
-    void OnCollisionEnter(Collision col)
-    {
-        if (col.gameObject.CompareTag("Asteroid"))
-        {
-            Debug.Log("col");
-            col.gameObject.GetComponent<AsteroidHealth>().ReceiveDamage(dmg, col.contacts[0].point);
-        }
+    //void OnCollisionEnter(Collision col)
+    //{
+    //    if (col.gameObject.CompareTag("Asteroid"))
+    //    {
+    //        Debug.Log("col");
+    //        col.gameObject.GetComponent<AsteroidHealth>().ReceiveDamage(dmg, col.contacts[0].point);
+    //    }
 
-        aliveFor = 0;
-        isShot = false;
-        PoolBehaviour.bulletPool.ReleaseObject(gameObject);
-    }
-
+    //    aliveFor = 0;
+    //    isShot = false;
+    //    PoolBehaviour.bulletPool.ReleaseObject(gameObject);
+    //}
+    
     public void setDir(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;

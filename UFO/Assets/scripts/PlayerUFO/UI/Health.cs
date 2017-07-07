@@ -23,7 +23,7 @@ public class Health : MonoBehaviour {
         maxHealth = health;
     }
 
-    void update()
+    void Update()
     {
         isCollided = false;
     }
@@ -42,15 +42,17 @@ public class Health : MonoBehaviour {
             healthTop.fillAmount = healthPercent;
             if (healthPercent < 0.3)
             {
-                Material[] mats = healthTop.GetComponent<Renderer>().materials;
-                mats[0] = healthColor[2];
-                healthTop.GetComponent<Renderer>().materials = mats;
+                //Material[] mats = healthTop.GetComponent<Renderer>().materials;
+                //mats[0] = healthColor[2];
+                //healthTop.GetComponent<Renderer>().materials = mats;
+                healthTop.material = healthColor[2];
             }
             else if (healthPercent<0.6)
             {
-                Material[] mats = healthTop.GetComponent<Renderer>().materials;
-                mats[0] = healthColor[1];
-                healthTop.GetComponent<Renderer>().materials = mats;
+                //Material[] mats = healthTop.GetComponent<Renderer>().materials;
+                //mats[0] = healthColor[1];
+                //healthTop.GetComponent<Renderer>().materials = mats;
+                healthTop.material = healthColor[1];
             }
             
 

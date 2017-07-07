@@ -19,6 +19,23 @@ public class AsteroidHealth : MonoBehaviour {
         hitParticles = GetComponentInChildren<ParticleSystem>();
     }
 
+    void OnCollisionEnter(Collision col)
+    {
+        Debug.Log("coll");
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        Debug.Log("Trigger");
+
+        if (col.gameObject.CompareTag("bullet"))
+        {
+            Debug.Log("col");
+            ReceiveDamage(col.gameObject.GetComponent<BulletMovement>().dmg, col.transform.position);
+            col.gameObject.GetComponent<BulletMovement>().isShot = false;
+            PoolBehaviour.bulletPool.ReleaseObject(col.gameObject);
+        }
+    }
 
     public void ReceiveDamage(int damageTake, Vector3 hitPoint)
     {
@@ -26,6 +43,7 @@ public class AsteroidHealth : MonoBehaviour {
         StartCoroutine(ShowDamageEffect(hitPoint));
         if(lifepoints <= 0)
         {
+            lifepoints = 100;
             ScoreManager.increaseScore(score);
             gameObject.GetComponent<moveAsteroid>().Reposition();
         }
