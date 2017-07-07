@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
     public RectTransform reticle;
+    public Text ammoText;
+    public Text curWeapon;
+    public Image curWeaponImg;
 
     private Gun gun;
     private const int AMOUNT_OF_GUNS= 2;
@@ -18,6 +22,9 @@ public class GunController : MonoBehaviour
     {
         fillStrategies();
         gun = new Gun(strategies[0], this.guns[nextWeaponIndex, 0], this.guns[nextWeaponIndex, 1]);
+        ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / " + strategies[nextWeaponIndex].capacity;
+        curWeapon.text = "" + strategies[nextWeaponIndex].gunName;
+        curWeaponImg.material = strategies[nextWeaponIndex].img;
     }
 
     // Update is called once per frame
@@ -32,11 +39,21 @@ public class GunController : MonoBehaviour
             gun.setGunStrat(strategies[nextWeaponIndex], this.guns[nextWeaponIndex, 0], this.guns[nextWeaponIndex, 1]);
             strategies[nextWeaponIndex].getGameObject().SetActive(true);
             strategies[currentWeaponIndex].getGameObject().SetActive(false);
+            curWeapon.text = strategies[nextWeaponIndex].gunName;
+            curWeaponImg.material = strategies[nextWeaponIndex].img;
         }
         if(Input.GetButtonDown("Reload"))
         {
-            if(!strategies[nextWeaponIndex].isReloading)
+            if (!strategies[nextWeaponIndex].isReloading)
+            {
+                ammoText.gameObject.SetActive(false);
                 StartCoroutine(strategies[nextWeaponIndex].Reload());
+            }
+        }
+
+        if(!strategies[nextWeaponIndex].isReloading && !ammoText.gameObject.activeSelf)
+        {
+            ammoText.gameObject.SetActive(true);
         }
     }
 
@@ -45,6 +62,7 @@ public class GunController : MonoBehaviour
         if (Input.GetButton("Fire1") && strategies[nextWeaponIndex].currentAmmo > 0 && !strategies[nextWeaponIndex].isReloading)
         {
             gun.Shoot();
+            ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / "+ strategies[nextWeaponIndex].capacity;
             StartCoroutine(strategies[nextWeaponIndex].ShotEffect());
         }
     }

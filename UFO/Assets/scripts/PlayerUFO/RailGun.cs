@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RailGun : MonoBehaviour, IGunStrategy {
 
+    string _name;
     int _reloadTime;
     int _dmg;
     int _range;
@@ -21,10 +23,13 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     public Transform leftBarrel;
     public Transform rightBarrel;
     public AudioClip gunShotSound;
+    public Material _img;
+    public Text _reloadText;
 
-    void Start()
+    void Awake()
     {
         //_firerate = 
+        _name = "Rail Gun";
         _capacity = 100;
         _currentAmmo = _capacity;
         _range = 500;
@@ -57,7 +62,13 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     public IEnumerator Reload()
     {
         _isReloading = true;
-        yield return new WaitForSeconds(_reloadTime);
+        _reloadText.gameObject.SetActive(true);
+        for(int i = 0; i < _reloadTime; i++)
+        {
+            Debug.Log((i / _reloadTime * 100));
+            _reloadText.text = "Reloading... " + ((float)i / (float)_reloadTime * 100) + "%"; 
+            yield return new WaitForSeconds(1f);
+        }
         _currentAmmo = _capacity;
         _isReloading = false;
         foreach(BulletMovement bullet in _bulletList)
@@ -68,6 +79,7 @@ public class RailGun : MonoBehaviour, IGunStrategy {
                 PoolBehaviour.bulletPool.ReleaseObject(bullet.gameObject);
             }
         }
+        _reloadText.gameObject.SetActive(false);
         StopCoroutine(Reload());
     }
 
@@ -146,6 +158,22 @@ public class RailGun : MonoBehaviour, IGunStrategy {
         get
         {
             return _firerate;
+        }
+    }
+
+    public Material img
+    {
+        get
+        {
+            return _img;
+        }
+    }
+
+    public string gunName
+    {
+        get
+        {
+            return _name;
         }
     }
 }

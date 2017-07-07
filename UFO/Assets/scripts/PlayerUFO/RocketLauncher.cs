@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class RocketLauncher : MonoBehaviour, IGunStrategy {
-    
+
+    string _name;
     int _reloadTime = 5;
     int _dmg = 20;
     int _range = 700;
@@ -15,6 +17,8 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
     AudioSource _shotSound;
 
     public LayerMask _mask;
+    public Material _img;
+    public Text _reloadText;
 
     public IEnumerator Reload()
     {
@@ -102,6 +106,22 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
         get
         {
             return _firerate;
+        }
+    }
+
+    public Material img
+    {
+        get
+        {
+            return _img;
+        }
+    }
+
+    public string gunName
+    {
+        get
+        {
+            return _name;
         }
     }
 }

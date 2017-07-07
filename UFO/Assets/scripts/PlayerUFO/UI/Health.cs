@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Health : MonoBehaviour {
 
     public float health;
     public GameObject screen;
-    public GameObject healthTop;
+    public Image healthTop;
     public Material[] healthColor;
 
     private int asteroidDamage;
@@ -20,7 +21,7 @@ public class Health : MonoBehaviour {
 	void Start () {
         healthFull = healthTop.transform.localScale.z;
         maxHealth = health;
-	}
+    }
 
     void update()
     {
@@ -38,8 +39,7 @@ public class Health : MonoBehaviour {
             isCollided = true;
             health -= other.GetComponent<moveAsteroid>().getDamage();
             float healthPercent = health / maxHealth;
-            float healthSize= healthPercent* healthFull;
-            healthTop.transform.localScale=new Vector3(healthTop.transform.localScale.x, healthTop.transform.localScale.y,healthSize);
+            healthTop.fillAmount = healthPercent;
             if (healthPercent < 0.3)
             {
                 Material[] mats = healthTop.GetComponent<Renderer>().materials;

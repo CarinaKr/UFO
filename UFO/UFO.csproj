@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ScoreManager.cs" />
     <Compile Include="Assets\UnityParticlePack\EffectExamples\Shared\Scripts\DecalDestroyer.cs" />
     <Compile Include="Assets\UnityParticlePack\EffectExamples\Shared\Scripts\GunAim.cs" />
     <Compile Include="Assets\UnityParticlePack\EffectExamples\Shared\Scripts\GunShoot.cs" />
@@ -140,10 +141,11 @@
     <Compile Include="Assets\scripts\PlayerUFO\Follow.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\Gun.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\GunController.cs" />
-    <Compile Include="Assets\scripts\PlayerUFO\Health.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\IGunStrategy.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\RailGun.cs" />
     <Compile Include="Assets\scripts\PlayerUFO\RocketLauncher.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\UI\Health.cs" />
+    <Compile Include="Assets\scripts\PlayerUFO\UI\UIController.cs" />
     <Compile Include="Assets\scripts\Score System\Attempt.cs" />
     <Compile Include="Assets\scripts\Score System\CompareAttempts.cs" />
     <Compile Include="Assets\scripts\Score System\HighScoreList.cs" />

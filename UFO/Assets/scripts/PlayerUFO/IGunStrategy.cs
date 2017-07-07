@@ -1,8 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public interface IGunStrategy {
+
+    string gunName
+    {
+        get;
+    }
+
+    Material img
+    {
+        get;
+    }
 
     bool isReloading
     {

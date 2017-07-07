@@ -7,6 +7,7 @@ public class AsteroidHealth : MonoBehaviour {
     public ParticleSystem hitParticles;
 
     private int lifepoints = 100;
+    private int score = 20;
 
     private MeshRenderer mesh;
     private Color standardColor;
@@ -25,6 +26,7 @@ public class AsteroidHealth : MonoBehaviour {
         StartCoroutine(ShowDamageEffect(hitPoint));
         if(lifepoints <= 0)
         {
+            ScoreManager.increaseScore(score);
             gameObject.GetComponent<moveAsteroid>().Reposition();
         }
     }
