@@ -10,6 +10,7 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
     int _range = 700;
     int _currentAmmo;
     int _capacity;
+    float _firerate;
     bool _isReloading;
     AudioSource _shotSound;
 
@@ -93,6 +94,14 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy {
         get
         {
             return _isReloading;
+        }
+    }
+
+    public float firerate
+    {
+        get
+        {
+            return _firerate;
         }
     }
 }

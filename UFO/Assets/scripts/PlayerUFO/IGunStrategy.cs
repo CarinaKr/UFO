@@ -40,6 +40,11 @@ public interface IGunStrategy {
         get;
     }
 
+    float firerate
+    {
+        get;
+    }
+
     IEnumerator Reload();
 
     IEnumerator ShotEffect();

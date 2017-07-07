@@ -8,7 +8,7 @@ public class Gun
     private Transform cameraTransform;
     
     private int cooldown;
-    private int maxCooldown = 5; //sollte eigentlich jede gun spezifisch haben!
+    private int maxCooldown = 18; //sollte eigentlich jede gun spezifisch haben!
 
     private IGunStrategy gunStrat;
     private Transform barrelEnd;

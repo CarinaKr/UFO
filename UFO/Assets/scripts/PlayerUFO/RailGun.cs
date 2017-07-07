@@ -10,6 +10,7 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     int _range;
     int _currentAmmo;
     int _capacity;
+    float _firerate;
     bool _isReloading;
     BulletMovement[] _bulletList;
     AudioSource _shotSound;
@@ -23,6 +24,7 @@ public class RailGun : MonoBehaviour, IGunStrategy {
 
     void Start()
     {
+        //_firerate = 
         _capacity = 100;
         _currentAmmo = _capacity;
         _range = 500;
@@ -46,7 +48,7 @@ public class RailGun : MonoBehaviour, IGunStrategy {
         }
         GameObject leftMuzzleFlash = Instantiate(muzzleFlashPrefab, leftBarrel);
         GameObject rightMuzzleFlash = Instantiate(muzzleFlashPrefab, rightBarrel);
-        yield return new WaitForSeconds(0.02f);
+        yield return new WaitForSeconds(0.015f);
         Destroy(leftMuzzleFlash);
         Destroy(rightMuzzleFlash);
         StopCoroutine(ShotEffect());
@@ -136,6 +138,14 @@ public class RailGun : MonoBehaviour, IGunStrategy {
         get
         {
             return _isReloading;
+        }
+    }
+
+    public float firerate
+    {
+        get
+        {
+            return _firerate;
         }
     }
 }
