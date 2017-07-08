@@ -62,9 +62,9 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     {
         _isReloading = true;
         _reloadText.gameObject.SetActive(true);
-        for(int i = 0; i < _reloadTime*20; i++)
+        for(int i = 0; i < 100; i++)
         {
-            _reloadText.text = "Reloading... " + ((float)i / (float)_reloadTime*5) + "%"; 
+            _reloadText.text = "Reloading... " + i + "%"; 
             yield return new WaitForSeconds((float)_reloadTime/100);
         }
         _currentAmmo = _capacity;
