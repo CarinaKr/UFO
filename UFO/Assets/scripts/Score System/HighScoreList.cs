@@ -11,14 +11,10 @@ public class HighScoreList : MonoBehaviour {
     void Awake()
     {
         //highscore liste laden
-        //_scorelist.Sort(IComparer<Attempt>);
         LoadScorelist(dp.loadData());
-        ClearScoreList();
-        AddScore(new Attempt("Kevin", 30));
-        SaveScore();
     }
 
-    void AddScore(Attempt att)
+    public void AddScore(Attempt att)
     {
         _scorelist.Add(att);
         _scorelist.Sort(comparer);
@@ -45,7 +41,7 @@ public class HighScoreList : MonoBehaviour {
         _scorelist.RemoveRange(0, _scorelist.Count);
     }
 
-    void SaveScore()
+    public void SaveScore()
     {
         dp.saveData(_scorelist);
     }

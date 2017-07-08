@@ -7,7 +7,7 @@ public class ScoreManager : MonoBehaviour {
 
     private static int _score = 0;
 
-    public bool isMainMenu;
+    public bool isMenu;
     public Text scoreText;
 
     public HighScoreList hsl;
@@ -22,15 +22,9 @@ public class ScoreManager : MonoBehaviour {
 
     void Awake()
     {
-        if(isMainMenu)
+        if(isMenu)
         {
-            //aktuelle Highscores holen
-            List<Attempt> list = hsl.scoreList;
-            for(int i = 0; i < list.Count; i++)
-            {
-                players[i].text = "" + list[i].name;
-                scores[i].text = "" + list[i].score;
-            }
+            getCurrentHSL();
         }
     }
 
@@ -46,5 +40,27 @@ public class ScoreManager : MonoBehaviour {
             scoreText.text = "Score: " + _score;
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    //aktuelle Highscores holen
+    void getCurrentHSL()
+    {
+        List<Attempt> list = hsl.scoreList;
+        for (int i = 0; i < list.Count; i++)
+        {
+            players[list.Count-i-1].text = "" + list[i].name;
+            scores[list.Count-i-1].text = "" + list[i].score;
+        }
+    }
+
+    public void AddCurrentAttempt(Attempt att)
+    {
+        hsl.AddScore(att);
+        getCurrentHSL();
+    }
+
+    public void SaveScoreList()
+    {
+        hsl.SaveScore();
     }
 }

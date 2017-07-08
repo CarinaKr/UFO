@@ -17,14 +17,19 @@ public class ButtonHandler : MonoBehaviour {
     public UIFader faderAlt;
 
     public int levelToLoad;
+    public bool isGameOver;
 
     void Awake()
     {
-        StartCoroutine(faderAlt.FadeOut());
         scorelist = GameObject.Find("Highscore List");
-        instructions = GameObject.Find("Instructions");
-        startGame = GameObject.Find("StartGame");
-        viewInstructions = GameObject.Find("ViewInstructions");
+        StartCoroutine(faderAlt.FadeOut());
+        if (!isGameOver)
+        {
+            instructions = GameObject.Find("Instructions");
+            startGame = GameObject.Find("StartGame");
+            viewInstructions = GameObject.Find("ViewInstructions");
+        }
+        
     }
 
     public void DetermineHandler(string handlerName)
@@ -48,6 +53,14 @@ public class ButtonHandler : MonoBehaviour {
         else if (handlerName.Equals("Return to Main"))
         {
             StartCoroutine(BackToMain());
+        }
+        else if (handlerName.Equals("SubmitScore"))
+        {
+            StartCoroutine(SubmitScore());
+        }
+        else if (handlerName.Equals("Finish"))
+        {
+            StartCoroutine(FinishGame());
         }
     }
 
@@ -93,5 +106,25 @@ public class ButtonHandler : MonoBehaviour {
         instructions.SetActive(false);
         scorelist.SetActive(true);
         StartCoroutine(faderAlt.FadeIn());
+    }
+
+    private IEnumerator SubmitScore()
+    {
+        //load list and submit score to list
+        NameInput input = GameObject.Find("Handles").GetComponent<NameInput>();
+        ScoreManager manager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+        manager.SendMessage("AddCurrentAttempt", new Attempt(input.playerName, input.playerScore));
+        manager.SaveScoreList();
+        //fade out menu, wait 1sec, fade in other menu
+        StartCoroutine(faderMain.FadeOut());
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(faderAlt.FadeIn());
+
+    }
+
+    private IEnumerator FinishGame()
+    {
+        //switch back to main menu again
+        yield return new WaitForSeconds(2f);
     }
 }

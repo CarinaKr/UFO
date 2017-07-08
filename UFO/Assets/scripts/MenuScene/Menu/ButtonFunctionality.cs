@@ -45,7 +45,6 @@ namespace VRStandardAssets.Examples
         //Handle the Over event
         private void HandleOver()
         {
-            Debug.Log("Show over state");
             m_Button.color = m_OverColor;
         }
 
@@ -53,7 +52,6 @@ namespace VRStandardAssets.Examples
         //Handle the Out event
         private void HandleOut()
         {
-            Debug.Log("Show out state");
             m_Button.color = m_NormalColor;
         }
 
@@ -61,7 +59,6 @@ namespace VRStandardAssets.Examples
         //Handle the Click event
         private void HandleClick()
         {
-            Debug.Log("Show click state");
             m_Button.color = m_ClickedColor;
             handler.DetermineHandler(handlerMethod);
         }        
