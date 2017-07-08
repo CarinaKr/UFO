@@ -8,11 +8,24 @@ public class ButtonHandler : MonoBehaviour {
 
     [SerializeField]
     private VRCameraFade m_CameraFade;
+    private GameObject scorelist;
+    private GameObject instructions;
+    private GameObject startGame;
+    private GameObject viewInstructions;
 
     public UIFader faderMain;
     public UIFader faderAlt;
 
     public int levelToLoad;
+
+    void Awake()
+    {
+        StartCoroutine(faderAlt.FadeOut());
+        scorelist = GameObject.Find("Highscore List");
+        instructions = GameObject.Find("Instructions");
+        startGame = GameObject.Find("StartGame");
+        viewInstructions = GameObject.Find("ViewInstructions");
+    }
 
     public void DetermineHandler(string handlerName)
     {
@@ -22,11 +35,11 @@ public class ButtonHandler : MonoBehaviour {
         }
         else if (handlerName.Equals("View Instructions"))
         {
-            ViewInstructions();
+            StartCoroutine(ViewInstructions());
         }
         else if (handlerName.Equals("View Highscore"))
         {
-
+            StartCoroutine(ViewHighScore());
         }
         else if (handlerName.Equals("Exit"))
         {
@@ -34,18 +47,16 @@ public class ButtonHandler : MonoBehaviour {
         }
         else if (handlerName.Equals("Return to Main"))
         {
-
+            StartCoroutine(BackToMain());
         }
     }
 
     private IEnumerator StartHandler()
     {
-        Debug.Log("In Cor");
         // If the camera is already fading, ignore.
         if (m_CameraFade.IsFading)
             yield break;
-
-        Debug.Log("In Cor2");
+        
         // Wait for the camera to fade out.
         yield return StartCoroutine(m_CameraFade.BeginFadeOut(true));
 
@@ -53,14 +64,34 @@ public class ButtonHandler : MonoBehaviour {
         SceneManager.LoadScene(levelToLoad, LoadSceneMode.Single);
     }
 
-    void ViewInstructions()
+    private IEnumerator ViewInstructions()
     {
         StartCoroutine(faderMain.FadeOut());
-        while (faderMain.fading)
-        {
-            return;
-        }
-        GameObject.Find("Highscore List").SetActive(false);
+        yield return new WaitForSeconds(1f);
+        startGame.SetActive(false);
+        viewInstructions.SetActive(false);
+        instructions.SetActive(true);
+        scorelist.SetActive(false);
+        StartCoroutine(faderAlt.FadeIn());
+    }
+
+    private IEnumerator BackToMain()
+    {
+        StartCoroutine(faderAlt.FadeOut());
+        startGame.SetActive(true);
+        viewInstructions.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(faderMain.FadeIn());
+    }
+
+    private IEnumerator ViewHighScore()
+    {
+        StartCoroutine(faderMain.FadeOut());
+        yield return new WaitForSeconds(1f);
+        startGame.SetActive(false);
+        viewInstructions.SetActive(false);
+        instructions.SetActive(false);
+        scorelist.SetActive(true);
         StartCoroutine(faderAlt.FadeIn());
     }
 }

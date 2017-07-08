@@ -13,18 +13,8 @@ public class HighScoreList : MonoBehaviour {
         //highscore liste laden
         //_scorelist.Sort(IComparer<Attempt>);
         LoadScorelist(dp.loadData());
-        PrintScore();
-        _scorelist.Add(new Attempt("hans", 20));
-        _scorelist.Add(new Attempt("hans", 30));
-        _scorelist.Add(new Attempt("hans", 10));
-        _scorelist.Add(new Attempt("hans", 50));
-        _scorelist.Add(new Attempt("hans", 70));
-        _scorelist.Sort(comparer);
-        PrintScore();
-        AddScore(new Attempt("kevin", 35));
-        PrintScore();
         ClearScoreList();
-        PrintScore();
+        AddScore(new Attempt("Kevin", 30));
         SaveScore();
     }
 
@@ -63,5 +53,13 @@ public class HighScoreList : MonoBehaviour {
     void LoadScorelist(List<Attempt> _scorelist)
     {
         this._scorelist = _scorelist;
+    }
+
+    public List<Attempt> scoreList
+    {
+        get
+        {
+            return _scorelist;
+        }
     }
 }
