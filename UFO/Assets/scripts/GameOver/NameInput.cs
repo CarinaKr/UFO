@@ -19,6 +19,7 @@ public class NameInput : MonoBehaviour {
     public Text[] chars;
     public GameObject handle;
     public ScoreManager scoreManager;
+    public Text scoreText;
 
     private bool isPressed;
     private bool isSideways;
@@ -29,7 +30,10 @@ public class NameInput : MonoBehaviour {
         curLength = 0;
         nameLength = 0;
         chars[0].gameObject.SetActive(true);
-        _playerScore = 45;
+        if (PlayerPrefs.HasKey("Score"))
+        { _playerScore = PlayerPrefs.GetInt("Score"); }
+        else { _playerScore = 0; }
+        scoreText.text = "Your score : " + _playerScore;
     }
 
     void Update()

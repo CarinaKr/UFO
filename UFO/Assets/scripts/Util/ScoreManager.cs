@@ -17,6 +17,7 @@ public class ScoreManager : MonoBehaviour {
     public static void increaseScore(int score)
     {
         _score += score;
+        PlayerPrefs.SetInt("Score", _score);
         //scoreText.text = "Score: " + _score;
     }
 
