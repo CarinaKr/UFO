@@ -26,9 +26,8 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     public Material _img;
     public Text _reloadText;
 
-    void Awake()
+    void Start()
     {
-        //_firerate = 
         _name = "Rail Gun";
         _capacity = 100;
         _currentAmmo = _capacity;
@@ -63,11 +62,10 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     {
         _isReloading = true;
         _reloadText.gameObject.SetActive(true);
-        for(int i = 0; i < _reloadTime; i++)
+        for(int i = 0; i < _reloadTime*20; i++)
         {
-            Debug.Log((i / _reloadTime * 100));
-            _reloadText.text = "Reloading... " + ((float)i / (float)_reloadTime * 100) + "%"; 
-            yield return new WaitForSeconds(1f);
+            _reloadText.text = "Reloading... " + ((float)i / (float)_reloadTime*5) + "%"; 
+            yield return new WaitForSeconds((float)_reloadTime/100);
         }
         _currentAmmo = _capacity;
         _isReloading = false;
