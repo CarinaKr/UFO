@@ -11,6 +11,7 @@ public class ButtonHandler : MonoBehaviour {
     private GameObject scorelist;
     private GameObject instructions;
     private GameObject startGame;
+    private GameObject submit;
     private GameObject viewInstructions;
 
     public UIFader faderMain;
@@ -28,6 +29,10 @@ public class ButtonHandler : MonoBehaviour {
             instructions = GameObject.Find("Instructions");
             startGame = GameObject.Find("StartGame");
             viewInstructions = GameObject.Find("ViewInstructions");
+        }
+        else
+        {
+            submit = GameObject.Find("Submit");
         }
         
     }
@@ -116,6 +121,7 @@ public class ButtonHandler : MonoBehaviour {
         manager.SendMessage("AddCurrentAttempt", new Attempt(input.playerName, input.playerScore));
         manager.SaveScoreList();
         //fade out menu, wait 1sec, fade in other menu
+        submit.SetActive(false);
         StartCoroutine(faderMain.FadeOut());
         yield return new WaitForSeconds(1f);
         StartCoroutine(faderAlt.FadeIn());
@@ -126,5 +132,6 @@ public class ButtonHandler : MonoBehaviour {
     {
         //switch back to main menu again
         yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(levelToLoad, LoadSceneMode.Single);
     }
 }
