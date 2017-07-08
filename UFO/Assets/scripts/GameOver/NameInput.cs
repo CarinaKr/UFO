@@ -40,41 +40,39 @@ public class NameInput : MonoBehaviour {
     {
         chars[curLength].text = "" + alphabet[currChar];
 
-        if (Input.GetAxisRaw("Submit2") == -1 && !isPressed)
+        if (Input.GetAxisRaw("Submit") == -1 && !isPressed)
         {
             //vorheriger buchstabe
             isPressed = true;
-            Debug.Log("-1");
-            currChar -= 1;
+            currChar --;
             if(currChar < 0)
             {
                 currChar = 26;
             }
         }
-        else if (Input.GetAxisRaw("Submit2") == 1 && !isPressed)
+        else if (Input.GetAxisRaw("Submit") == 1 && !isPressed)
         {
             //nächster buchstabe
             isPressed = true;
-            Debug.Log("1");
-            currChar += 1;
+            currChar++;
             currChar %= alphabet.Length;
         }
-        else if(Input.GetAxisRaw("Submit2")==0&&isPressed)
+        else if(Input.GetAxisRaw("Submit")==0&&isPressed)
         {
             isPressed = false;
         }
 
         chars[curLength].text = "" + alphabet[currChar];
         
-        if (Input.GetAxisRaw("NameSpace2")!=0 && curLength < chars.Length-1&&isSideways==false)
+        if (Input.GetAxisRaw("NameSpace")!=0 && curLength < chars.Length-1&&isSideways==false)
         {
             isSideways = true;
-            int axisRaw = (int)Input.GetAxisRaw("NameSpace2");
+            int axisRaw = (int)Input.GetAxisRaw("NameSpace");
             //_playerName += "" + alphabet[currChar];
             curLength += axisRaw;
 
             //if walking to the right, new letter
-            if(chars[curLength].isActiveAndEnabled==false)
+            if(!chars[curLength].isActiveAndEnabled)
             {
                     chars[curLength].gameObject.SetActive(true);
                     if(curLength-1 < 4)
@@ -94,7 +92,7 @@ public class NameInput : MonoBehaviour {
                 currChar = 1;
             }
             //going backwarts, letter already exists
-            else if(chars[curLength].isActiveAndEnabled)
+            else if(chars[curLength].isActiveAndEnabled && curLength > 0)
             {
                 handle.transform.localPosition = new Vector3(handle.transform.localPosition.x + axisRaw * 60, handle.transform.localPosition.y, handle.transform.localPosition.z);
                 for(int i=0;i<alphabet.Length;i++)
@@ -110,7 +108,7 @@ public class NameInput : MonoBehaviour {
 
             //curLength++;
         }
-        else if(Input.GetAxisRaw("NameSpace2")==0&&isSideways)
+        else if(Input.GetAxisRaw("NameSpace")==0&&isSideways)
         {
             isSideways = false;
         }
@@ -118,7 +116,7 @@ public class NameInput : MonoBehaviour {
         if(isPressed)
         {
             blockPressed++;
-            if(blockPressed > 10)
+            if(blockPressed > 20)
             {
                 isPressed = false;
                 blockPressed = 0;
@@ -127,7 +125,7 @@ public class NameInput : MonoBehaviour {
         if(isSideways)
         {
             sidePressed++;
-            if(sidePressed>10)
+            if(sidePressed>20)
             {
                 isSideways = false;
                 sidePressed = 0;

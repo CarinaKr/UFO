@@ -18,7 +18,6 @@ public class ScoreManager : MonoBehaviour {
     {
         _score += score;
         PlayerPrefs.SetInt("Score", _score);
-        //scoreText.text = "Score: " + _score;
     }
 
     void Awake()
