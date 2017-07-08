@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using VRStandardAssets.Utils;
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour {
 
+    [SerializeField]
+    private VRCameraFade m_CameraFade;
     public float health;
     public GameObject screen;
     public Image healthTop;
     public Material[] healthColor;
+    public int gameOverLevelNumber;
 
     private int asteroidDamage;
     private float healthFull;
@@ -19,7 +24,6 @@ public class Health : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        healthFull = healthTop.transform.localScale.z;
         maxHealth = health;
     }
 
@@ -32,12 +36,14 @@ public class Health : MonoBehaviour {
     {
         if(other.tag=="Asteroid")
         {
-            if (isCollided)
+            moveAsteroid asteroid = other.GetComponent<moveAsteroid>();
+            if (isCollided||asteroid.tagged)
             {
                 return;
             }
             isCollided = true;
-            health -= other.GetComponent<moveAsteroid>().getDamage();
+            asteroid.tagged = true;
+            health -= asteroid.getDamage();
             float healthPercent = health / maxHealth;
             healthTop.fillAmount = healthPercent;
             if (healthPercent < 0.3)
@@ -60,15 +66,21 @@ public class Health : MonoBehaviour {
 
         if(health<=0)
         {
-            this.gameOver();
+            StartCoroutine(gameOver());
         }
     }
 
-    public void gameOver()
+    public IEnumerator gameOver()
     {
-        screen.gameObject.SetActive(true);
-        gameObject.GetComponent<ArduinoTest>().enabled=false;
-        gameObject.GetComponent<CockpitController>().enabled = false;
+        // If the camera is already fading, ignore.
+        if (m_CameraFade.IsFading)
+            yield break;
+
+        // Wait for the camera to fade out.
+        yield return StartCoroutine(m_CameraFade.BeginFadeOut(true));
+
+        // Load the level.
+        SceneManager.LoadScene(gameOverLevelNumber, LoadSceneMode.Single);
     }
 	
 }

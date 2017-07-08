@@ -12,11 +12,13 @@ public class moveAsteroid : MonoBehaviour {
     public int damage;
 
     private Vector3 zZiel;
+    private bool isTagged;
 
 
 	// Use this for initialization
 	void Start () {
         zZiel = new Vector3(center.position.x,transform.position.y, center.position.z);
+        isTagged = false;
 		
 	}
 	
@@ -34,6 +36,7 @@ public class moveAsteroid : MonoBehaviour {
         Vector3 direction = new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
         direction.Normalize();
         transform.Translate(direction * radius, Space.World);
+        isTagged = false;
         //in Blickrichtung des Ufos an den Rand des Radius bewegen.
         //transform.Rotate(Vector3.up, ufo.transform.rotation.y);
         //transform.Translate(Vector3.forward* radius);
@@ -49,6 +52,18 @@ public class moveAsteroid : MonoBehaviour {
         if(other.tag=="Player")
         {
             transform.position = zZiel;
+        }
+    }
+
+    public bool tagged
+    {
+        get
+        {
+            return isTagged;
+        }
+        set
+        {
+            isTagged = value;
         }
     }
 

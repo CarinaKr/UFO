@@ -32,12 +32,13 @@ public class Gun
     public void Shoot()
     {
         //shoot
-        cooldown--;
+        //cooldown--;
 
         if (Input.GetButton("Fire1") && gunStrat.currentAmmo > 0 && !gunStrat.isReloading)
         {
-            if (cooldown <= 0)
-            {
+            //took this out and replaced it with a cooldown time in the GunController
+            //if (cooldown <= 0)
+            //{
                 //take bullets from the pool
                 GameObject bulletLeft = PoolBehaviour.bulletPool.GetObject();
                 GameObject bulletRight = PoolBehaviour.bulletPool.GetObject();
@@ -57,8 +58,8 @@ public class Gun
                 gunStrat.currentAmmo -= 2;
 
                 //cooldown reset
-                cooldown = maxCooldown;
-            }
+               // cooldown = maxCooldown;
+            //}
 
         }
     }

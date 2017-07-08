@@ -17,7 +17,8 @@ public class ButtonHandler : MonoBehaviour {
     public UIFader faderMain;
     public UIFader faderAlt;
 
-    public int levelToLoad;
+    public int gameLevelNumber;
+    public int menuLevelNumber;
     public bool isGameOver;
 
     void Awake()
@@ -79,7 +80,7 @@ public class ButtonHandler : MonoBehaviour {
         yield return StartCoroutine(m_CameraFade.BeginFadeOut(true));
 
         // Load the level.
-        SceneManager.LoadScene(levelToLoad, LoadSceneMode.Single);
+        SceneManager.LoadScene(gameLevelNumber, LoadSceneMode.Single);
     }
 
     private IEnumerator ViewInstructions()
@@ -130,8 +131,18 @@ public class ButtonHandler : MonoBehaviour {
 
     private IEnumerator FinishGame()
     {
+
+        // If the camera is already fading, ignore.
+        if (m_CameraFade.IsFading)
+            yield break;
+
+        // Wait for the camera to fade out.
+        yield return StartCoroutine(m_CameraFade.BeginFadeOut(true));
+
+        // Load the level.
+        SceneManager.LoadScene(menuLevelNumber, LoadSceneMode.Single);
+
         //switch back to main menu again
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(levelToLoad, LoadSceneMode.Single);
+        //yield return new WaitForSeconds(2f);
     }
 }

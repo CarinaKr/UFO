@@ -14,8 +14,12 @@ public class GunController : MonoBehaviour
     private const int AMOUNT_OF_GUNS= 2;
     private int currentWeaponIndex, nextWeaponIndex;
 
+    private int maxCooldown = 18;
+    private int cooldown;
+
     private Transform[,] guns;
     private List<IGunStrategy> strategies = new List<IGunStrategy>();
+
 
     // Use this for initialization
     void Start()
@@ -56,16 +60,42 @@ public class GunController : MonoBehaviour
             ammoText.gameObject.SetActive(true);
             ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / " + strategies[nextWeaponIndex].capacity;
         }
+
+        cooldown--;
+        if (Input.GetButton("Fire1") && strategies[nextWeaponIndex].currentAmmo > 0 && !strategies[nextWeaponIndex].isReloading)
+        {
+            //cooldown time has to be zero to be able to shoot
+            if (cooldown <= 0)
+            {
+                gun.Shoot();
+                ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / " + strategies[nextWeaponIndex].capacity;
+                StartCoroutine(strategies[nextWeaponIndex].ShotEffect());
+
+                cooldown = maxCooldown;
+            }
+        }
+        //reset cooldown time when releasing fire button
+        //else if(Input.GetButtonUp("Fire1"))
+        //{
+        //    cooldown = 0;
+        //}
     }
 
     void FixedUpdate()
     {
-        if (Input.GetButton("Fire1") && strategies[nextWeaponIndex].currentAmmo > 0 && !strategies[nextWeaponIndex].isReloading)
-        {
-            gun.Shoot();
-            ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / "+ strategies[nextWeaponIndex].capacity;
-            StartCoroutine(strategies[nextWeaponIndex].ShotEffect());
-        }
+        //if (Input.GetButton("Fire1") && strategies[nextWeaponIndex].currentAmmo > 0 && !strategies[nextWeaponIndex].isReloading)
+        //{
+        //    cooldown--;
+        //    if(cooldown<=0)
+        //    {
+        //        gun.Shoot();
+        //        ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / "+ strategies[nextWeaponIndex].capacity;
+        //        StartCoroutine(strategies[nextWeaponIndex].ShotEffect());
+
+        //        cooldown = maxCooldown;
+        //    }
+            
+        //}
     }
 
     void fillStrategies()
