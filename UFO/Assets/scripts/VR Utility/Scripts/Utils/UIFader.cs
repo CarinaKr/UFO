@@ -19,6 +19,13 @@ namespace VRStandardAssets.Utils
 
         private bool m_Fading;                                  // Whether the UI elements are currently fading in or out.
 
+        public bool fading
+        {
+            get
+            {
+                return m_Fading;
+            }
+        }
 
         public bool Visible { get; private set; }               // Whether the UI elements are currently visible.
 
