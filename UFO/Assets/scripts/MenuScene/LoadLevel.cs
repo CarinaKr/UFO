@@ -48,6 +48,14 @@ public class LoadLevel : MonoBehaviour {
             StartCoroutine(ActivateButton());
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.B))
+        {
+            StartCoroutine(ActivateButton());
+        }
+    }
+
     private IEnumerator ActivateButton()
     {
         // If the camera is already fading, ignore.
