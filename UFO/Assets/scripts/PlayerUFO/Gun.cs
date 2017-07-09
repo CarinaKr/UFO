@@ -62,7 +62,8 @@ public class Gun
         {
             barrelEnds[i].parent.parent.LookAt(reticle);
         }
-        barrelEnds[1].parent.parent.Rotate(eulerAngleOffset, Space.Self);
+        if(!isBullet)
+            barrelEnds[1].parent.parent.Rotate(eulerAngleOffset, Space.Self);
 
         Vector3 direction = -1 * (cameraTransform.position - reticle.position);
         RaycastHit hit;

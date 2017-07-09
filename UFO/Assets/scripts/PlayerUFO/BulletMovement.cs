@@ -7,15 +7,19 @@ public class BulletMovement : MonoBehaviour {
     public float moveSpeed;
     public int lifeTicks;
     public bool isRocket;
-
+    public ParticleSystem rocketTrail;
+    
     private int _dmg;
     private Vector3 targetPosition;
     private Vector3 eulerAngleOffset = new Vector3(0, 0, 0);
     private int aliveFor;
     private bool _isShot;
+    private Animator rocketAC;
 
     void Awake() {
         transform.parent = isRocket ? GameObject.Find("RocketContainer").transform : GameObject.Find("BulletContainer").transform;
+        rocketTrail = GetComponentInChildren<ParticleSystem>();
+        rocketAC = GetComponent<Animator>();
     }
 
 
@@ -24,6 +28,12 @@ public class BulletMovement : MonoBehaviour {
         targetPosition = GameObject.FindGameObjectWithTag("CrossHair").GetComponent<RectTransform>().position;
         transform.LookAt(targetPosition);
         isShot = true;
+        if(isRocket)
+        {
+            rocketAC.Play("Flying");
+            rocketTrail.transform.position = transform.position;
+            rocketTrail.Play();
+        }
     }
 
     void OnDisable()

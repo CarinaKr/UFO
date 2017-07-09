@@ -17,6 +17,7 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     bool _isReloading;
     BulletMovement[] _bulletList;
     AudioSource _shotSound;
+    Animator[] animators;
     
     public LayerMask _mask;
     public GameObject bulletContainer;
@@ -29,6 +30,7 @@ public class RailGun : MonoBehaviour, IGunStrategy {
 
     void Start()
     {
+        animators = GetComponentsInChildren<Animator>();
         _name = "Rail Gun";
         _cooldown = 0.5f;
         _capacity = 100;
@@ -47,16 +49,18 @@ public class RailGun : MonoBehaviour, IGunStrategy {
 
     public IEnumerator ShotEffect()
     {
-        if(!_shotSound.isPlaying)
+        Animate(true);
+        if (!_shotSound.isPlaying)
         {
             //_shotSound.Play();
             _shotSound.PlayOneShot(gunShotSound);
         }
         GameObject leftMuzzleFlash = Instantiate(muzzleFlashPrefab, leftBarrel);
         GameObject rightMuzzleFlash = Instantiate(muzzleFlashPrefab, rightBarrel);
-        yield return new WaitForSeconds(0.015f);
-        Destroy(leftMuzzleFlash);
-        Destroy(rightMuzzleFlash);
+        Destroy(leftMuzzleFlash, 0.1f);
+        Destroy(rightMuzzleFlash, 0.1f);
+        yield return new WaitForSeconds(0.5f);
+        Animate(false);
         StopCoroutine(ShotEffect());
     }
 
@@ -81,6 +85,15 @@ public class RailGun : MonoBehaviour, IGunStrategy {
         }
         _reloadText.gameObject.SetActive(false);
         StopCoroutine(Reload());
+    }
+
+    void Animate(bool isShooting)
+    {
+        Debug.Log("Shooting: " + isShooting);
+        for (int i = 0; i < animators.Length; i++)
+        {
+            animators[i].SetBool("isShooting", isShooting);
+        }
     }
 
     public void setProjectile()
