@@ -53,7 +53,7 @@ namespace VRStandardAssets.Utils
             // Set the default swipe to be none.
             SwipeDirection swipe = SwipeDirection.NONE;
 
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") || Input.GetAxisRaw("RightTrigger") == -1 || Input.GetAxisRaw("RightTrigger") == 1)
             {
                 // When Fire1 is pressed record the position of the mouse.
                 m_MouseDownPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -64,7 +64,7 @@ namespace VRStandardAssets.Utils
             }
 
             // This if statement is to gather information about the mouse when the button is up.
-            if (Input.GetButtonUp ("Fire1"))
+            if (Input.GetButtonUp ("Fire1") || Input.GetAxisRaw("RightTrigger") == -1 || Input.GetAxisRaw("RightTrigger") == 1)
             {
                 // When Fire1 is released record the position of the mouse.
                 m_MouseUpPosition = new Vector2 (Input.mousePosition.x, Input.mousePosition.y);
@@ -82,7 +82,7 @@ namespace VRStandardAssets.Utils
                 OnSwipe(swipe);
 
             // This if statement is to trigger events based on the information gathered before.
-            if(Input.GetButtonUp ("Fire1"))
+            if(Input.GetButtonUp ("Fire1") || Input.GetAxisRaw("RightTrigger") == -1 || Input.GetAxisRaw("RightTrigger") == 1)
             {
                 // If anything has subscribed to OnUp call it.
                 if (OnUp != null)

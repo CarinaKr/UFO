@@ -19,10 +19,16 @@ public class GunController : MonoBehaviour
 
     private Transform[,] guns;
     private List<IGunStrategy> strategies = new List<IGunStrategy>();
+    private bool isFirstUpdate = true;
 
 
     // Use this for initialization
     void Start()
+    {
+       
+    }
+
+    void Init()
     {
         fillStrategies();
         gun = new Gun(strategies[0], this.guns[nextWeaponIndex, 0], this.guns[nextWeaponIndex, 1]);
@@ -30,25 +36,22 @@ public class GunController : MonoBehaviour
         curWeapon.text = "" + strategies[nextWeaponIndex].gunName;
         curWeaponImg.material = strategies[nextWeaponIndex].img;
         cooldown = strategies[nextWeaponIndex].cooldown;
+        timeToFire = Time.time + cooldown;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(isFirstUpdate)
+        {
+            isFirstUpdate = false;
+            Init();
+        }
+
         gun.Aim();
         if (Input.GetButtonDown("Fire2") && !strategies[nextWeaponIndex].isReloading)
         {
-            currentWeaponIndex = nextWeaponIndex;
-            nextWeaponIndex++;
-            nextWeaponIndex %= strategies.Count;
-            gun.setGunStrat(strategies[nextWeaponIndex], this.guns[nextWeaponIndex, 0], this.guns[nextWeaponIndex, 1]);
-            gun.isBullet = !gun.isBullet;
-            strategies[nextWeaponIndex].getGameObject().SetActive(true);
-            strategies[currentWeaponIndex].getGameObject().SetActive(false);
-            curWeapon.text = strategies[nextWeaponIndex].gunName;
-            cooldown = strategies[nextWeaponIndex].cooldown;
-            ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / " + strategies[nextWeaponIndex].capacity;
-            curWeaponImg.material = strategies[nextWeaponIndex].img;
+            Swap();
         }
         if(Input.GetButtonDown("Reload"))
         {
@@ -71,6 +74,7 @@ public class GunController : MonoBehaviour
             //cooldown time has to be zero to be able to shoot
             if (Time.time > timeToFire)
             {
+                Debug.Log("cooldown: " + cooldown);
                 timeToFire = Time.time + cooldown;
                 gun.Shoot();
                 ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / " + strategies[nextWeaponIndex].capacity;
@@ -109,5 +113,20 @@ public class GunController : MonoBehaviour
             }
         }
         strategies[0].getGameObject().SetActive(true);
+    }
+
+    void Swap()
+    {
+        currentWeaponIndex = nextWeaponIndex;
+        nextWeaponIndex++;
+        nextWeaponIndex %= strategies.Count;
+        gun.setGunStrat(strategies[nextWeaponIndex], this.guns[nextWeaponIndex, 0], this.guns[nextWeaponIndex, 1]);
+        gun.isBullet = !gun.isBullet;
+        strategies[nextWeaponIndex].getGameObject().SetActive(true);
+        strategies[currentWeaponIndex].getGameObject().SetActive(false);
+        curWeapon.text = strategies[nextWeaponIndex].gunName;
+        cooldown = strategies[nextWeaponIndex].cooldown;
+        ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / " + strategies[nextWeaponIndex].capacity;
+        curWeaponImg.material = strategies[nextWeaponIndex].img;
     }
 }
