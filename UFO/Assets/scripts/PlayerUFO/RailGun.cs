@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class RailGun : MonoBehaviour, IGunStrategy {
 
     string _name;
+    float _cooldown;
     int _reloadTime;
     int _dmg;
     int _range;
@@ -29,6 +30,7 @@ public class RailGun : MonoBehaviour, IGunStrategy {
     void Start()
     {
         _name = "Rail Gun";
+        _cooldown = 0.5f;
         _capacity = 100;
         _currentAmmo = _capacity;
         _range = 500;
@@ -172,6 +174,14 @@ public class RailGun : MonoBehaviour, IGunStrategy {
         get
         {
             return _name;
+        }
+    }
+
+    public float cooldown
+    {
+        get
+        {
+            return _cooldown;
         }
     }
 }

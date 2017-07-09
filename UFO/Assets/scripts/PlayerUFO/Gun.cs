@@ -8,20 +8,22 @@ public class Gun
     private Transform cameraTransform;
     
     private int cooldown;
-    private int maxCooldown = 18; //sollte eigentlich jede gun spezifisch haben!
 
     private IGunStrategy gunStrat;
     private Transform barrelEnd;
     private Transform[] barrelEnds;
 
-    private Vector3 eulerAngleOffset = new Vector3(90, 0, 0);
+    private Vector3 eulerAngleOffset = new Vector3(0, 0, 85);
     private Vector3 target;
+
+    private bool _isBullet;
 
     public Gun() { }
 
     public Gun(IGunStrategy gunStrat, Transform leftBarrelEnd, Transform rightBarrelEnd)
     {
         barrelEnds = new Transform[2];
+        _isBullet = true;
         this.gunStrat = gunStrat;
         this.barrelEnds[0] = leftBarrelEnd;
         this.barrelEnds[1] = rightBarrelEnd;
@@ -31,36 +33,25 @@ public class Gun
 
     public void Shoot()
     {
-        //shoot
-        //cooldown--;
-
         if (Input.GetButton("Fire1") && gunStrat.currentAmmo > 0 && !gunStrat.isReloading)
         {
-            //took this out and replaced it with a cooldown time in the GunController
-            //if (cooldown <= 0)
-            //{
-                //take bullets from the pool
-                GameObject bulletLeft = PoolBehaviour.bulletPool.GetObject();
-                GameObject bulletRight = PoolBehaviour.bulletPool.GetObject();
-                
-                //and put them in the right place
-                bulletLeft.transform.position = barrelEnds[0].transform.position + Vector3.forward;
-                bulletRight.transform.position = barrelEnds[1].transform.position + Vector3.forward;
+            //take bullets from the pool
+            GameObject bulletLeft = isBullet ? PoolBehaviour.bulletPool.GetObject() : PoolBehaviour.rocketPool.GetObject();
+            GameObject bulletRight = isBullet ? PoolBehaviour.bulletPool.GetObject() : PoolBehaviour.rocketPool.GetObject();
 
-                //give them their target
-                bulletLeft.GetComponent<BulletMovement>().setDir(target);
-                bulletRight.GetComponent<BulletMovement>().setDir(target);
+            //and put them in the right place
+            bulletLeft.transform.position = barrelEnds[0].transform.position + Vector3.forward;
+            bulletRight.transform.position = barrelEnds[1].transform.position + Vector3.forward;
 
-                //set the properties of the bullet according to the gun
-                bulletLeft.GetComponent<BulletMovement>().dmg = gunStrat.dmg;
-                bulletRight.GetComponent<BulletMovement>().dmg = gunStrat.dmg;
-                //reduce Ammo
-                gunStrat.currentAmmo -= 2;
+            //give them their target
+            bulletLeft.GetComponent<BulletMovement>().setDir(target);
+            bulletRight.GetComponent<BulletMovement>().setDir(target);
 
-                //cooldown reset
-               // cooldown = maxCooldown;
-            //}
-
+            //set the properties of the bullet according to the gun (might want to implement an empty "projectile" interface so that i can share it along everywhere
+            bulletLeft.GetComponent<BulletMovement>().dmg = gunStrat.dmg;
+            bulletRight.GetComponent<BulletMovement>().dmg = gunStrat.dmg;
+            //reduce Ammo
+            gunStrat.currentAmmo -= 2;
         }
     }
     
@@ -70,8 +61,8 @@ public class Gun
         for(int i = 0; i <barrelEnds.Length; i++)
         {
             barrelEnds[i].parent.parent.LookAt(reticle);
-            barrelEnds[i].parent.parent.Rotate(eulerAngleOffset, Space.Self);
         }
+        barrelEnds[1].parent.parent.Rotate(eulerAngleOffset, Space.Self);
 
         Vector3 direction = -1 * (cameraTransform.position - reticle.position);
         RaycastHit hit;
@@ -91,5 +82,17 @@ public class Gun
         gunStrat = strat;
         barrelEnds[0] = leftBarrelEnd;
         barrelEnds[1] = rightBarrelEnd;
+    }
+
+    public bool isBullet
+    {
+        get
+        {
+            return _isBullet;
+        }
+        set
+        {
+            _isBullet = value;
+        }
     }
 }

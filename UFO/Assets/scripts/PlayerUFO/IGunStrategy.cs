@@ -5,6 +5,11 @@ using UnityEngine;
 
 public interface IGunStrategy {
 
+    float cooldown
+    {
+        get;
+    }
+
     string gunName
     {
         get;

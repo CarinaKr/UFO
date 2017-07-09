@@ -50,24 +50,24 @@ public class NameInput : MonoBehaviour {
                 currChar = 26;
             }
         }
-        else if (Input.GetAxisRaw("Submit2") == 1 && !isPressed)
+        else if (Input.GetAxisRaw("Submit") == 1 && !isPressed)
         {
             //nächster buchstabe
             isPressed = true;
             currChar++;
             currChar %= alphabet.Length;
         }
-        else if(Input.GetAxisRaw("Submit2")==0&&isPressed)
+        else if(Input.GetAxisRaw("Submit")==0&&isPressed)
         {
             isPressed = false;
         }
 
         chars[curLength].text = "" + alphabet[currChar];
         
-        if (Input.GetAxisRaw("NameSpace2")!=0 &&isSideways==false)
+        if (Input.GetAxisRaw("NameSpace")!=0 &&isSideways==false)
         {
             isSideways = true;
-            int axisRaw = (int)Input.GetAxisRaw("NameSpace2");
+            int axisRaw = (int)Input.GetAxisRaw("NameSpace");
             //_playerName += "" + alphabet[currChar];
             if ((axisRaw < 0 && curLength > 0) || (axisRaw > 0 && curLength < chars.Length - 1))
             {
@@ -118,7 +118,7 @@ public class NameInput : MonoBehaviour {
         if(isPressed)
         {
             blockPressed++;
-            if(blockPressed > 20)
+            if(blockPressed > 30)
             {
                 isPressed = false;
                 blockPressed = 0;
@@ -127,7 +127,7 @@ public class NameInput : MonoBehaviour {
         if(isSideways)
         {
             sidePressed++;
-            if(sidePressed>20)
+            if(sidePressed>30)
             {
                 isSideways = false;
                 sidePressed = 0;

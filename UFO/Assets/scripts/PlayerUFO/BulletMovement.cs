@@ -6,6 +6,7 @@ public class BulletMovement : MonoBehaviour {
 
     public float moveSpeed;
     public int lifeTicks;
+    public bool isRocket;
 
     private int _dmg;
     private Vector3 targetPosition;
@@ -14,7 +15,7 @@ public class BulletMovement : MonoBehaviour {
     private bool _isShot;
 
     void Awake() {
-        transform.parent = GameObject.Find("BulletContainer").transform;
+        transform.parent = isRocket ? GameObject.Find("RocketContainer").transform : GameObject.Find("BulletContainer").transform;
     }
 
 
@@ -33,6 +34,17 @@ public class BulletMovement : MonoBehaviour {
     void FixedUpdate()
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed);
+        if(transform.position == targetPosition)
+        {
+            if(isRocket)
+            {
+                PoolBehaviour.rocketPool.ReleaseObject(gameObject);
+            }
+            else
+            {
+                PoolBehaviour.bulletPool.ReleaseObject(gameObject);
+            }
+        }
     }
 
     //void OnCollisionEnter(Collision col)
