@@ -126,6 +126,11 @@ public class ArduinoTest : MonoBehaviour
                         text[3].text = "Z: " + (zZ);*/
                         //Debug.Log("Daten: " + zIn);
                         sp.BaseStream.Flush();
+
+                        if(zBaselined==false)
+                        {
+                            baseline();
+                        }
                     }
                     catch (System.Exception)
                     {
