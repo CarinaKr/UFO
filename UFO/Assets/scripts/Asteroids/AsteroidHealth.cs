@@ -5,6 +5,7 @@ using UnityEngine;
 public class AsteroidHealth : MonoBehaviour {
 
     public ParticleSystem hitParticles;
+    public ParticleSystem explosionParticles;
 
     private int lifepoints = 100;
     private int score = 20;
@@ -17,6 +18,7 @@ public class AsteroidHealth : MonoBehaviour {
         mesh = gameObject.GetComponent<MeshRenderer>();
         standardColor = mesh.material.color;
         hitParticles = GetComponentInChildren<ParticleSystem>();
+        //explosionParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     void OnCollisionEnter(Collision col)
@@ -26,7 +28,7 @@ public class AsteroidHealth : MonoBehaviour {
         if (col.gameObject.CompareTag("bullet"))
         {
             Debug.Log("col");
-            ReceiveDamage(col.gameObject.GetComponent<BulletMovement>().dmg, col.contacts[0].point);
+            ReceiveDamage(col.gameObject.GetComponent<BulletMovement>().dmg, col.contacts[0].point, col.gameObject.GetComponent<BulletMovement>().isRocket);
             col.gameObject.GetComponent<BulletMovement>().isShot = false;
             PoolBehaviour.bulletPool.ReleaseObject(col.gameObject);
         }
@@ -45,10 +47,10 @@ public class AsteroidHealth : MonoBehaviour {
     //    }
     //}
 
-    public void ReceiveDamage(int damageTake, Vector3 hitPoint)
+    public void ReceiveDamage(int damageTake, Vector3 hitPoint, bool isRocket)
     {
         lifepoints -= damageTake;
-        StartCoroutine(ShowDamageEffect(hitPoint));
+        StartCoroutine(ShowDamageEffect(hitPoint, isRocket));
         if(lifepoints <= 0)
         {
             lifepoints = 100;
@@ -57,8 +59,14 @@ public class AsteroidHealth : MonoBehaviour {
         }
     }
 
-    IEnumerator ShowDamageEffect(Vector3 hitPoint)
+    IEnumerator ShowDamageEffect(Vector3 hitPoint, bool isRocket)
     {
+        if(isRocket)
+        {
+            explosionParticles.transform.position = hitPoint;
+            explosionParticles.Play();
+        }
+        Debug.Log(lifepoints);
         hitParticles.transform.position = hitPoint;
         hitParticles.Play();
         mesh.material.color = Color.red;

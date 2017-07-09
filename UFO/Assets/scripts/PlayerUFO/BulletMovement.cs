@@ -6,7 +6,7 @@ public class BulletMovement : MonoBehaviour {
 
     public float moveSpeed;
     public int lifeTicks;
-    public bool isRocket;
+    public bool _isRocket;
     public ParticleSystem rocketTrail;
     
     private int _dmg;
@@ -17,7 +17,7 @@ public class BulletMovement : MonoBehaviour {
     private Animator rocketAC;
 
     void Awake() {
-        transform.parent = isRocket ? GameObject.Find("RocketContainer").transform : GameObject.Find("BulletContainer").transform;
+        transform.parent = _isRocket ? GameObject.Find("RocketContainer").transform : GameObject.Find("BulletContainer").transform;
         rocketTrail = GetComponentInChildren<ParticleSystem>();
         rocketAC = GetComponent<Animator>();
     }
@@ -28,7 +28,7 @@ public class BulletMovement : MonoBehaviour {
         targetPosition = GameObject.FindGameObjectWithTag("CrossHair").GetComponent<RectTransform>().position;
         transform.LookAt(targetPosition);
         isShot = true;
-        if(isRocket)
+        if(_isRocket)
         {
             rocketAC.Play("Flying");
             rocketTrail.transform.position = transform.position;
@@ -46,7 +46,7 @@ public class BulletMovement : MonoBehaviour {
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed);
         if(transform.position == targetPosition)
         {
-            if(isRocket)
+            if(_isRocket)
             {
                 PoolBehaviour.rocketPool.ReleaseObject(gameObject);
             }
@@ -91,5 +91,13 @@ public class BulletMovement : MonoBehaviour {
     {
         get;
         set;
+    }
+
+    public bool isRocket
+    {
+        get
+        {
+            return _isRocket;
+        }
     }
 }
