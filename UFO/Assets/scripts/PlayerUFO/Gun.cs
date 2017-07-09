@@ -33,8 +33,6 @@ public class Gun
 
     public void Shoot()
     {
-        if (Input.GetButton("Fire1") && gunStrat.currentAmmo > 0 && !gunStrat.isReloading)
-        {
             //take bullets from the pool
             GameObject bulletLeft = isBullet ? PoolBehaviour.bulletPool.GetObject() : PoolBehaviour.rocketPool.GetObject();
             GameObject bulletRight = isBullet ? PoolBehaviour.bulletPool.GetObject() : PoolBehaviour.rocketPool.GetObject();
@@ -52,7 +50,6 @@ public class Gun
             bulletRight.GetComponent<BulletMovement>().dmg = gunStrat.dmg;
             //reduce Ammo
             gunStrat.currentAmmo -= 2;
-        }
     }
     
     public void Aim()

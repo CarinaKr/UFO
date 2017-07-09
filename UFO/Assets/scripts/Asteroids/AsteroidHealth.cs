@@ -64,6 +64,7 @@ public class AsteroidHealth : MonoBehaviour {
         if(isRocket)
         {
             explosionParticles.transform.position = hitPoint;
+            explosionParticles.transform.localScale = new Vector3();
             explosionParticles.Play();
         }
         Debug.Log(lifepoints);

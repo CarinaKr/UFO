@@ -13,6 +13,7 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy
     int _range;
     int _currentAmmo;
     int _capacity;
+    int _shotCount;
     float _firerate;
     bool _isReloading;
     BulletMovement[] _bulletList;
@@ -31,7 +32,7 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy
     void Start()
     {
         animators = GetComponentsInChildren<Animator>();
-        _cooldown = 2.5f;
+        _cooldown = 1.25f;
         _name = "Rocketlauncher";
         _capacity = 20;
         _currentAmmo = _capacity;
@@ -49,14 +50,21 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy
 
     public IEnumerator ShotEffect()
     {
-        Animate(true);
+        _shotCount++;
+        _shotCount %= 3;
+        Animate(_shotCount);
         if (!_shotSound.isPlaying)
         {
             //_shotSound.Play();
             _shotSound.PlayOneShot(gunShotSound);
         }
-        yield return new WaitForSeconds(1.04f);
-        Animate(false);
+        yield return new WaitForSeconds(0.5f);
+        if (_shotCount == 2)
+        {
+            _shotCount = 0;
+            animators[0].SetInteger("shotCount", _shotCount);
+            animators[1].SetInteger("shotCount", _shotCount);
+        }
         Debug.Log("Stopped");
         StopCoroutine(ShotEffect());
     }
@@ -84,12 +92,12 @@ public class RocketLauncher : MonoBehaviour, IGunStrategy
         StopCoroutine(Reload());
     }
 
-    void Animate(bool isShooting)
+    void Animate(int _shotCount)
     {
-        Debug.Log("Shooting: " + isShooting);
+        Debug.Log("Shooting: " + _shotCount);
         for (int i = 0; i < animators.Length; i++)
         {
-            animators[i].SetBool("isShooting", isShooting);
+            animators[i].SetInteger("shotCount", _shotCount);
         }
     }
 

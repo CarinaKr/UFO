@@ -20,11 +20,14 @@ public class Health : MonoBehaviour {
     private float maxHealth;
 
     private bool isCollided = false;
+    private Light lifeLight;
     
 
 	// Use this for initialization
 	void Start () {
         maxHealth = health;
+        lifeLight = GameObject.Find("LowLifeLight").GetComponent<Light>();
+        lifeLight.enabled = false;
     }
 
     void Update()
@@ -51,6 +54,7 @@ public class Health : MonoBehaviour {
                 //Material[] mats = healthTop.GetComponent<Renderer>().materials;
                 //mats[0] = healthColor[2];
                 //healthTop.GetComponent<Renderer>().materials = mats;
+                StartCoroutine(LowLifeEffect());
                 healthTop.material = healthColor[2];
             }
             else if (healthPercent<0.6)
@@ -81,6 +85,33 @@ public class Health : MonoBehaviour {
 
         // Load the level.
         SceneManager.LoadScene(gameOverLevelNumber, LoadSceneMode.Single);
+    }
+
+    IEnumerator LowLifeEffect()
+    {
+        bool decrease = false;
+        lifeLight.enabled = true;
+        while(true)
+        {
+            if(lifeLight.intensity > 0.3 && decrease)
+            {
+                lifeLight.intensity -= 0.3f;
+                if(lifeLight.intensity < 0.3f)
+                {
+                    decrease = false;
+                }
+            }
+            else if (lifeLight.intensity < 2.7 && !decrease)
+            {
+                lifeLight.intensity += 0.3f;
+                if (lifeLight.intensity > 2.7f)
+                {
+                    decrease = true;
+                }
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+
     }
 	
 }
