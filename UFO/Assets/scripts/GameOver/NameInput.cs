@@ -50,35 +50,37 @@ public class NameInput : MonoBehaviour {
                 currChar = 26;
             }
         }
-        else if (Input.GetAxisRaw("Submit") == 1 && !isPressed)
+        else if (Input.GetAxisRaw("Submit2") == 1 && !isPressed)
         {
             //nächster buchstabe
             isPressed = true;
             currChar++;
             currChar %= alphabet.Length;
         }
-        else if(Input.GetAxisRaw("Submit")==0&&isPressed)
+        else if(Input.GetAxisRaw("Submit2")==0&&isPressed)
         {
             isPressed = false;
         }
 
         chars[curLength].text = "" + alphabet[currChar];
         
-        if (Input.GetAxisRaw("NameSpace")!=0 && curLength < chars.Length-1&&isSideways==false)
+        if (Input.GetAxisRaw("NameSpace2")!=0 &&isSideways==false)
         {
             isSideways = true;
-            int axisRaw = (int)Input.GetAxisRaw("NameSpace");
+            int axisRaw = (int)Input.GetAxisRaw("NameSpace2");
             //_playerName += "" + alphabet[currChar];
-            curLength += axisRaw;
-
-            //if walking to the right, new letter
-            if(!chars[curLength].isActiveAndEnabled)
+            if ((axisRaw < 0 && curLength > 0) || (axisRaw > 0 && curLength < chars.Length - 1))
             {
+                curLength += axisRaw;
+
+                //if walking to the right, new letter
+                if (!chars[curLength].isActiveAndEnabled)
+                {
                     chars[curLength].gameObject.SetActive(true);
-                    if(curLength-1 < 4)
+                    if (curLength - 1 < 4)
                     {
                         //put every textfield 60 units to the left and let the cursor stay in position
-                        for(int i = 0; i <= curLength-1; i++)
+                        for (int i = 0; i <= curLength - 1; i++)
                         {
                             chars[i].gameObject.transform.localPosition = new Vector3((chars[i].gameObject.transform.localPosition.x - 60), chars[i].gameObject.transform.localPosition.y, chars[i].gameObject.transform.localPosition.z);
                         }
@@ -89,21 +91,21 @@ public class NameInput : MonoBehaviour {
                         handle.transform.localPosition = new Vector3((handle.transform.localPosition.x + 60), handle.transform.localPosition.y, handle.transform.localPosition.z);
                     }
 
-                currChar = 1;
-            }
-            //going backwarts, letter already exists
-            else if(chars[curLength].isActiveAndEnabled && curLength > 0)
-            {
-                handle.transform.localPosition = new Vector3(handle.transform.localPosition.x + axisRaw * 60, handle.transform.localPosition.y, handle.transform.localPosition.z);
-                for(int i=0;i<alphabet.Length;i++)
+                    currChar = 1;
+                }
+                //going backwarts, letter already exists
+                else if (chars[curLength].isActiveAndEnabled)
                 {
-                    if(chars[curLength].text.Equals(alphabet[i].ToString()))
+                    handle.transform.localPosition = new Vector3(handle.transform.localPosition.x + axisRaw * 60, handle.transform.localPosition.y, handle.transform.localPosition.z);
+                    for (int i = 0; i < alphabet.Length; i++)
                     {
-                        currChar = i;
+                        if (chars[curLength].text.Equals(alphabet[i].ToString()))
+                        {
+                            currChar = i;
+                        }
                     }
                 }
             }
-           
           
 
             //curLength++;
