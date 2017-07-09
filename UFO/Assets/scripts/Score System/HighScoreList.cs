@@ -10,8 +10,11 @@ public class HighScoreList : MonoBehaviour {
 
     void Awake()
     {
-        //highscore liste laden
         LoadScorelist(dp.loadData());
+        //highscore liste laden
+        //AddScore(new Attempt("spieler1", 50));
+        //SaveScore();
+        
     }
 
     public void AddScore(Attempt att)

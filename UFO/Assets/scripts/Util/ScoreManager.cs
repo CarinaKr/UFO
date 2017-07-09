@@ -22,15 +22,19 @@ public class ScoreManager : MonoBehaviour {
 
     void Awake()
     {
-        if(isMenu)
-        {
-            getCurrentHSL();
-        }
+        //if(isMenu)
+        //{
+        //    getCurrentHSL();
+        //}
     }
 
     void Start()
     {
         StartCoroutine("UpdateScore");
+        if (isMenu)
+        {
+            getCurrentHSL();
+        }
     }
 
     IEnumerator UpdateScore()
