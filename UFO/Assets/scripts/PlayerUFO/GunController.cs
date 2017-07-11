@@ -69,7 +69,7 @@ public class GunController : MonoBehaviour
             ammoText.text = "Ammo: " + strategies[nextWeaponIndex].currentAmmo + " / " + strategies[nextWeaponIndex].capacity;
         }
         
-        if (Input.GetAxisRaw("RightTrigger") == -1 || Input.GetAxisRaw("RightTrigger") == 1 && strategies[nextWeaponIndex].currentAmmo > 0 && !strategies[nextWeaponIndex].isReloading)
+        if ((Input.GetAxisRaw("RightTrigger") == -1 || Input.GetAxisRaw("RightTrigger") == 1) && strategies[nextWeaponIndex].currentAmmo > 0 && !strategies[nextWeaponIndex].isReloading)
         {
             //cooldown time has to be zero to be able to shoot
             if (Time.time > timeToFire)
