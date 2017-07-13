@@ -27,10 +27,14 @@ public class AsteroidHealth : MonoBehaviour {
 
         if (col.gameObject.CompareTag("bullet"))
         {
+            bool isRocket = col.gameObject.GetComponent<BulletMovement>().isRocket;
             Debug.Log("col");
-            ReceiveDamage(col.gameObject.GetComponent<BulletMovement>().dmg, col.contacts[0].point, col.gameObject.GetComponent<BulletMovement>().isRocket);
+            ReceiveDamage(col.gameObject.GetComponent<BulletMovement>().dmg, col.contacts[0].point, isRocket);
             col.gameObject.GetComponent<BulletMovement>().isShot = false;
-            PoolBehaviour.bulletPool.ReleaseObject(col.gameObject);
+            if(isRocket)
+                PoolBehaviour.rocketPool.ReleaseObject(col.gameObject);
+            else
+                PoolBehaviour.bulletPool.ReleaseObject(col.gameObject);
         }
     }
 
