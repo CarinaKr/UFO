@@ -36,7 +36,7 @@ public class RailGun : MonoBehaviour, IGunStrategy {
         _capacity = 100;
         _currentAmmo = _capacity;
         _range = 500;
-        _dmg = 5;
+        _dmg = 15;
         _reloadTime = 5;
         _isReloading = false;
         _bulletList = new BulletMovement[PoolBehaviour.bulletPool.objects.Length];
